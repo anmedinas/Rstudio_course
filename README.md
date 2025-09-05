@@ -32,3 +32,10 @@ Es recomendable que después de este curso, exploren RMarkdown y la generación 
     -   Conexión a base de datos en SQL.
 4.  **Módulo 4.** Visualización de datos.
     -   Librería `ggplot2` y elementos estéticos de gráficos.
+
+------------------------------------------------------------------------
+
+## 📜 Copyright
+
+© 2025 Andrés C. Medina.\
+Todos los derechos reservados.
