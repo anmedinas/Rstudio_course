@@ -1,0 +1,454 @@
+---
+title: "Módulo 03: Importar y exportar archivos de datos"
+author: "Andrés C. Medina"
+date: "1/14/2022"
+output:
+    pdf_document:     
+    toc: true 
+    toc_depth: 2
+    #word_document: default   # en caso que se quiera un doc en word
+    #toc: true 
+    #toc_depth: 2
+---
+
+### Importar Archivos
+
+En Rstudio, existen varias formas de importar archivos de datos a nuestro
+ambiente de trabajo.
+
+* Cargar datos a través de menús (`File > ImportDataset`). Por menús 
+se pueden cargar datos del tipo `cvs`, `excel`, `spss`, `sas` y 
+`stata`.  Al usar los menús de `RStudio` para importar datos en
+realidad se está llamando a unas funciones que son las que importan
+realmente los datos; además, para importar datos a través de los menús,
+`RStudio` no usa las funciones de R-base sino las funciones de dos 
+paquetes; `readr` y `haven`. 
+
+```{r, eval=TRUE, echo=FALSE, warning=FALSE, fig.align="center",fig.cap = "a) Utilizando Import Dataset desde el menú de Rstudio, b) Utilizando Import Dataset desde Environment"}
+library("cowplot")
+library("ggplot2")
+p1 <-  ggdraw() + draw_image("figs/ImportRstudio.png", scale = 0.9)
+p2 <-  ggdraw() + draw_image("figs/ImportRstudio2.png", scale = 0.9)
+plot_grid(p1, p2)
+```
+
+* Cargar a través de la consola que veremos en el curso. Esta es la mejor opción en general, ya que es más fácil de reproducir. Las formas de carga manual (con menús) debería evitarse a toda costa. 
+
+\newpage
+
+### Tipos de Archivos
+
+* Datos en formato texto: `csv`, `txt`, `dat`, etc.
+* Formato de otros programas: `Excel` (.xls y .xlsx), `SPSS` (.sav y .por),
+`STATA` (.dta), `SAS` (.sas)
+* Formatos propios de R: `R objects` (.RData o .rda), `Serialized R Objects` (.rds)
+* Otros formatos: `JSON`, `XML` y otros
+
+### Importar Texto Plano
+
+Cuando se habla de datos en texto plano, se habla de 
+datos en texto sin formato especial, datos que uno podría leer con un editor de texto cualquiera. La mayoría de estos datos en texto plano que usaremos para analizar, serán datos tabulares (columnas son variables y filas son observaciones). Pero hay casos en los que tendremos datos con menos estructura y necesitaremos estructurarla de alguna manera. Por ejemplo, los logs de un programa suelen estar en texto plano, pero NO tabular. Uno podría leer los archivos como cadenas de caracter y formatearlos, o usar otros tipos de formatos, como JSON, XML, etc. Los datos de texto no tabulares salen del alcance de este curso y quedan propuestos al lector.  
+
+Volviendo a la lectura de datos tabulares, el paquete `utils` trae por defecto, las siguientes funciones,
+`read.csv()` y `read.table()`. La función `read.csv()`, contiene los
+siguientes argumentos.
+
+```{r, echo=TRUE, eval=FALSE, message=FALSE}
+read.csv(file,                 # Nombre del archivo o ruta completa del archivo
+         header = TRUE,        # Leer el encabezado (TRUE) o no (FALSE)
+         sep = ",",            # Separador de los valores
+         quote = "\"",         # Caracter de citaciones
+         dec = ".",            # Punto decimal
+         fill = TRUE,          # Rellenar celdas vacías (TRUE) o no (FALSE)
+         comment.char = "",    # Caracter de los comentarios o cadenas vacías
+         encoding = "unknown", # Codificación del archivo
+         ...)
+```
+
+Similarmente, `read.table()` tiene los siguientes argumentos.
+
+```{r, echo=TRUE, eval=FALSE, message=FALSE}
+read.table(file,                 # Nombre del archivo o ruta completa del archivo
+           header = FALSE,       # Si se muestra el encabezado (TRUE) o no (FALSE)
+           sep = "",             # Separador de las columnas del archivo
+           dec = ".")            # Punto decimal
+```
+
+
+Si quisieramos importar el conjunto de datos iris 
+(`iris.csv`), utilizando `read.csv()`, podríamos utilizar la 
+siguiente instrucción en la consola. 
+
+```{r, echo=TRUE, eval=TRUE, message=FALSE}
+iris <- read.csv("dataset/iris.csv", sep = ";")
+head(iris, 3)
+```
+
+Utilizando `read.table()`, podemos cargar `iris.csv`
+
+```{r, echo=TRUE, eval=TRUE, message=FALSE}
+iris <- read.table("dataset/iris.csv", sep = ";", header = TRUE)
+head(iris,3)
+```
+
+Sin embargo, a través del tiempo fueron apareciendo paquetes 
+optimizados como por ejemplo `readr`. Ahora, existen algunas 
+diferencias entre `read_csv()` y `read.csv()`:
+
+* La función `read_csv` es 10 veces más rápida que su contraparte del 
+paquete `base`. Por otro lado, los trabajos de ejecución poseen una barra de 
+progreso para que el usuario, pueda ver el progreso de la lectura de datos.
+* Las funciones de `read_csv()` encajan en el paradigma de 
+investigación reproducible. Algunas de las funciones de R-base heredan algunas 
+opciones del sistema operativo y las variables de entorno, haciendo posible que 
+un script que funciona en un ordenador no funcione en otro, mientras que las de `read_csv()` no hereda esas opciones. 
+
+* Las funciones de `read_csv()` producen `tibbles` (un tipo de 
+`dataframe`). Un `tibble` es una estructura de datos muy similar a un `data.frame` 
+(rectangular, organizada en filas y columnas), pero con algunas diferencias. Entre ellas, por
+ejemplo, los `print` de los `data.frame` y `tibbles` son diferentes. Si bien, un `print` de un 
+`data.frame` muestra las columnas y algunas filas de este, el `print` de un `tibble` muestra
+esto y el tipo de datos que contiene cada variable del conjunto de datos. 
+
+La librería `readr` lee datos tabulares con las siguientes intrucciones.
+
+* `read_delim()`, `read_csv()`, `read_tsv()`. 
+* `read_fwf()` y `read_table()`.
+
+Por ejemplo, al leer el conjunto de datos `iris.csv` mediante la 
+instrucción `read_delim()` lo podemos hacer de la siguiente forma. 
+
+```{r, echo=FALSE, eval=TRUE, message=FALSE}
+library("readr")
+library("dplyr")
+```
+
+```{r, echo=TRUE, eval=TRUE, message=FALSE}
+iris <- read_delim("dataset/iris.csv", delim = ";")
+head(iris,3)
+```
+
+La librería `readr` tiene una función específica para cada tipo de 
+archivo de datos tabulares. Por ejemplo, si el separador es un punto y coma, 
+la función para importar estos datos es `read_csv2()`; si el separador 
+es un tabulador, la función es `read_tsv()`. Pero también tiene una 
+función genérica que sirve para cualquier tipo de separador: 
+`read_delim()`.
+
+Una opción alternativa, es emplear la función `fread` (del paquete `data. table`).
+Esta función es mucho más rápida para cargar los datos que las anteriores, por lo
+que se recomienda su utilización si el tamaño del archivo de datos es grande, 
+en particular, mayor a 1Gb. 
+
+```{r, echo=TRUE, eval=TRUE, message=FALSE}
+library("data.table")
+iris <- fread("dataset/iris.csv")
+head(iris,3)
+```
+
+
+### Exportar Texto Plano
+
+La exportación de datos, es bastante sencilla pensando tanto en los 
+paquetes `readr` como las funciones base de `utils`.
+
+* Utilizando la librería `utils`
+
+```{r, echo=TRUE, eval=FALSE, message=FALSE}
+write.csv(iris, "dataset/iris_v1_utils.txt")
+write.table(iris, "dataset/iris_v2_utils.txt", sep=";")
+```
+
+* Utilizando la librería `readr`
+```{r, echo=TRUE, eval=FALSE, message=FALSE}
+write_csv(iris, "dataset/iris_v1_readr.txt")
+write_delim(iris, "dataset/iris_v2_readr.txt", delim = ";")
+write_delim(iris, "dataset/iris_v3_readr.txt", delim = "\t")
+write_delim(iris, "dataset/iris_v4_readr.txt", delim = " ")
+```
+
+* Utilizando la librería `data.table`
+```{r, echo=TRUE, eval=FALSE, message=FALSE}
+fwrite(iris, "dataset/iris_v1_datatable.txt")
+```
+
+
+
+### Importar Archivos Excel
+Para cargar datos en formato excel, se pueden utlizar al menos tres paquetes. 
+
+```{r, echo=TRUE, eval=FALSE, message=FALSE}
+install.packages("readxl", dep=TRUE)
+install.packages("xlsx", dep=TRUE)
+install.packages("openxlsx", dep=TRUE)
+```
+
+Una diferencia entre `openxlsx`, `readxl` y `xlsx` es que 
+este último depende de JAVA.  Sin embargo, también existe la opción 
+de cargar un libro de excel a través de menús (`File > ImportDataset`). Como siempre, esta opción de menús debe ser evitada a toda costa, para obtener códigos más reproducibles.  
+
+```{r, echo=TRUE, eval=FALSE, message=FALSE}
+library("readxl")
+library("xlsx")
+library("openxlsx")
+```
+
+El paquete `readxl` forma parte del paquete `tidyverse`, creado por Hadley 
+Wickham y su equipo. Este paquete soporta XLS vía la librería de C `libxls` 
+y archivos XLSX vía el paquete `RapidXML` de C++, sin la necesidad de 
+utilizar dependencias externas. 
+
+En primera instancia, cargamos la librería para utilizar las 
+funcionalidades de ésta, luego, cargamos un conjunto de datos de ejemplo
+mediante la función `readxl_example`. Ésta instrucción genera el `path` ó
+camino donde están estos datos.
+
+```{r, echo=TRUE, eval=TRUE, message=FALSE}
+library("readxl")
+ruta_archivo <- readxl_example("clippy.xlsx")
+ruta_archivo
+```
+
+Esta instrucción, entrega el nombre de las hojas que vienen en el 
+libro de excel. 
+
+```{r, echo=TRUE, eval=TRUE, message=FALSE}
+excel_sheets(ruta_archivo)
+```
+
+Para cargar estos datos de ejemplo, utilizaremos la función `read_excel`
+donde `ruta_archivo` contiene el `path` de los datos. 
+
+```{r, echo=TRUE, eval=TRUE, message=FALSE}
+data <- read_excel(ruta_archivo)
+data
+```
+
+Sin embargo, este archivo tiene dos hojas de trabajo (`excel_sheets`). 
+Existen dos formas de leer hojas de excel mediante `read_excel`. La 
+primera, es indicar mediante el argumento `sheet` el nombre de la hoja;
+la segunda, es indicar la posición de la hoja en el libro de excel. 
+`
+```{r, echo=TRUE, eval=TRUE, message=FALSE}
+df1 <- read_excel(ruta_archivo, sheet = "two-row-header")
+df1
+```
+
+```{r, echo=TRUE, eval=TRUE, message=FALSE}
+df2 <- read_excel(ruta_archivo, sheet = 2)
+df2
+```
+
+Para saltarse filas en la lectura de estos archivos, se puede utilizar el
+argument `skip` que indica el número de filas a saltarse.
+
+```{r, eval=TRUE, echo = TRUE}
+read_excel(ruta_archivo, skip = 1)
+```
+
+Por otro lado, para especificar rangos de celdas que uno desea cargar y no 
+toda la hoja, se puede utilizar el argumento `range`.
+
+```{r, eval=TRUE, echo = TRUE}
+read_excel(ruta_archivo, range = "B1:B5")
+```
+
+Si no se desea cargar el nombre de las columnas de tal archivo u hoja, 
+se puede utilizar el argumento `col_names` para omitirlo. Este argumento
+funciona con operadores lógicos indicando con `TRUE` si se quiere añadir 
+los nombres, y con `FALSE` si se desea omitir.
+
+```{r, eval=TRUE, echo = TRUE}
+read_excel(ruta_archivo, col_names = FALSE)
+```
+
+Si se desea convertir este archivo a uno de tipo `dataframe`, basta 
+con utilizar el operador `%>%` e indicar que la salida de la lectura, 
+se convierta a un archivo de tipo `data.frame()`
+
+```{r, eval=TRUE, echo=TRUE}
+read_excel(ruta_archivo) %>% data.frame()
+```
+
+Para exportar estos datos, basta con utilizar la instrucción `write.xlsx` 
+indicando el nombre del archivo que se desea guardar.
+
+```{r, eval=FALSE, echo=TRUE}
+write.xlsx(iris_resumen, "Iris_Resumen.xlsx")
+```
+
+\newpage
+
+### Conexión a bases de datos SQL.
+
+Existen diferentes interfaces y sistemas de conectividad que permiten la 
+ejecución de operaciones sobre bases de datos desde el lenguaje de 
+programación, independientemente del sistema operativo donde se ejecute o 
+de la base de datos a la cual se esté accediendo. El objetivo es acceder a
+cualquier dato desde cualquier aplicación, sin importar qué sistema de 
+gestión de bases de datos almacene los datos. Sin embargo, según el tipo de 
+base de datos, su infraestructura es distinta.
+
+```{r, eval=TRUE, echo=FALSE, warning=FALSE, fig.align="center",fig.cap = "Infraestructura de Conectividad"}
+library("cowplot")
+library("ggplot2")
+p1 <-  ggdraw() + draw_image("figs/figura01.png", scale = 0.5)
+p1
+```
+
+El centro de este enfoque es el paquete `DBI`. Este paquete actúa como 
+middle-ware entre los paquetes para permitir la conectividad con la base 
+de datos del usuario u otros paquetes. A su vez proporciona un conjunto
+coherente de funciones independientemente del tipo de base de datos 
+al que se accede. El paquete dplyr depende del paquete `DBI` para la 
+comunicación con las bases de datos. Actualmente, dichos paquetes existen
+para las siguientes bases de datos: `MySQL`,`SQLite`, `PostgreSQL` y
+`bigquery`.
+
+El paquete `DBI` (Data Base Interface) define una interfaz común entre `R` 
+y los sistemas de administración de bases de datos (`DBMS`) que permite que
+los paquetes puedan acceder a las bases de datos. En otras palabras permite
+que el código `R` pueda conectarse a distintas bases de datos para poder
+manipular, crear sentencias en el `DBMS`, extraer resultados entre 
+otras funciones.
+
+```{r, eval=TRUE, echo=FALSE, warning=FALSE, fig.align="center",fig.cap = "Estructura de conexión hacia una Base de Datos."}
+library("cowplot")
+library("ggplot2")
+p1 <-  ggdraw() + draw_image("figs/figura02.png", scale = 0.5)
+p1
+```
+
+De acuerdo a la figura 3, existen cuatro principales clases que deben
+incluirse en la estructura para el inicio de la conexión:
+
+* `DBIobject`: Creación de un objeto base para estructura.
+* `DBIDriver`: Se instala un backend específico para la base de datos a la 
+que desea conectarse como: `RSQLite()`,`RPostgreSQL()`, `RMySQL()`, etc.
+* `DBIConnection`: representa la conexión para una base de datos especifíca.
+* `DBIResult`:  El resultado de una consulta proveniente del `DBMS`.   
+
+La instalación del paquete `DBI` y `RMySQL` se puede hacer desde las
+herramientas de menús, como también de la consola mediante la siguiente
+instrucción.
+
+```{r, eval=FALSE, echo=TRUE}
+install.packages("DBI", dep=TRUE)
+install.packages("RMySQL", dep=TRUE)
+```
+Luego, para utilizar las funciones de conexión de esta librería, se utiliza
+la siguiente instrucción. 
+
+```{r, eval=TRUE, echo=TRUE, message=FALSE}
+library("DBI")
+library("RMySQL")
+```
+
+El siguiente ejemplo, ilustra la conexión desde Rstudio utilizando la 
+librería `DBI` y replica una consulta la cual, se aprecia en la figura 4.
+
+```{r, eval=TRUE, echo=FALSE, warning=FALSE, fig.align="center",fig.cap = "a) Query en MySQL Workbench, b) Resultado query desde Rstudio"}
+library("cowplot")
+library("ggplot2")
+p1 <-  ggdraw() + draw_image("figs/query.png", scale = 0.7)
+p2 <-  ggdraw() + draw_image("figs/resultado_query.png", scale = 0.7)
+plot_grid(p1, p2)
+```
+
+A continuación, escribamos el script que genera estos mismos resultados, 
+pero desde `Rstudio`.
+
+```{r, eval=FALSE, echo=TRUE, message=FALSE}
+suppressMessages(library("DBI"))
+suppressMessages(library("RMySQL"))
+options(warn = -999) # omite warnings
+
+# Credenciales de Acceso 
+conn <- dbConnect(
+  MySQL(),
+  user="usuario",
+  password="password",
+  dbname="Tabla",
+  host="localhost")
+
+# Query
+query <- dbSendQuery(conn, 
+                     "
+                     SELECT quality, state, 
+                     ROUND(SUM(amount),2) AS sum_amount, 
+                     ROUND(AVG(ppo),2) AS avg_ppo, 
+                     ROUND((SUM(price) / SUM(amount)),2) AS avg_ppo2 
+                     FROM precios_db  
+                     WHERE state IN ('California','New York','Illinois')
+                     GROUP BY quality, state ")
+
+# Obtiene los datos y los transforma a un objeto dataframe 
+df <- fetch(query)
+View(df)
+```
+
+\newpage 
+
+De acuerdo a la query anterior, si bien estamos utilizando `usuario` como el nombre
+del usuario de conexión, y `password` como el password de acceso a la base de datos
+de SQL, como hábito de buenas prácticas, se recomienda no utilizar directamente en los
+scripts los nombres reales de usuario y password. Esto se debe, básicamente, a que 
+las credenciales de acceso son personales e intransferibles. Ante esto, utilizaremos
+variables ambientes o de entorno. 
+
+Las variables de ambiente son un conjunto de valores que contienen información útil del programa 
+y de los sistemas que están utilizando los usuarios para su ejecución. En `Rstudio`, existen tres formas de crear y listar variables de ambiente.  
+
+1. [`Sys.getenv()`](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/Sys.getenv) 
+2. [`Sys.setenv()`](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/Sys.setenv)
+3. [`.Renviron` y `.Rprofile`](https://cran.r-project.org/web/packages/startup/vignettes/startup-intro.html) 
+
+`Sys.getenv()` es utilizado para listar variables de ambiente. Los items 2-3 son utilizados
+para creación de variables de ambiente. No obstante, `Sys.setenv()` es menos robusto que `.Renviron` o `.Rprofile`
+dado que al resetear el actual entorno de trabajo, las variables de ambiente creadas se pierden. A los 
+archivos del item 3, se les conoce como comunmente como archivos `dotfiles` ó archivos de punto y tienen 
+como principal objetivo personalizar el comportamiento de nuestra sesión. 
+
+En el caso de `.Renviron`, éste, contiene las variables sobre la configuración y el funcionamiento del 
+ambiente de `R`. En este sentido, se pueden colocar claves de APIs (como por ejemplo, claves de seguridad
+de conexión a Github ó claves de conexión a motores de bases de datos, entre otros). 
+
+Para crear variables utilizando `.Renviron` en la consola de trabajo, basta con tipear 
+
+```{r, eval=FALSE, echo=TRUE, message=FALSE}
+usethis::edit_r_environ()
+```
+
+Mediante la instrucción, se abrirá una ventana del siguiente estilo.
+
+```{r, eval=TRUE, echo=FALSE, warning=FALSE, fig.align="center",fig.cap = "Creando variables ambientes en .Renviron"}
+library("cowplot")
+library("ggplot2")
+p1 <-  ggdraw() + draw_image("figs/Renviron.png", scale = 0.5)
+p1
+```
+
+Uno puede incluir tantas variables de entorno como uno quiera
+
+```{r, eval=FALSE, echo=TRUE}
+USER = "usuario"
+CLAVE = "clave"
+```
+
+En donde hemos creado una variable ambiente `CLAVE` que contiene una clave de acceso para SQL. De esta forma, 
+al iniciar sesión, `Rstudio` cargará automaticamente todas estas variables. Ahora bien, para invocar ésta variable,
+sólo basta tipear en la consola la instrucción `Sys.getenv("CLAVE")`. 
+
+Por tanto, si deseamos listar el usuario del sistema y crear la password de acceso como
+variable ambiente, podemos usar las siguientes instrucciones:
+
+```{r, eval=FALSE, echo=TRUE, message=FALSE}
+# Recupera el usuario de conexion (.Renviron)(Recomendado)
+Sys.getenv("USER") 
+# Recupera el password de acceso a la base de datos SQL (.Renviron)(Recomendado)
+Sys.getenv("CLAVE")
+# Genera el password de acceso a la base de datos SQL (sys.getenv)(No Recomendado)
+Sys.setenv(CLAVE = "1234")
+```
+
+Es importante destacar que para que las variables de ambientes recién modificadas estén disponibles, hay que reiniciar la sesión de R.

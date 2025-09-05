@@ -1,0 +1,525 @@
+---
+title: "Módulo 02: Manejo de datos estructurados"
+author: "Andrés C. Medina"
+date: "1/14/2022"
+output:
+    pdf_document:     
+    toc: true 
+    toc_depth: 2
+    #word_document: default   # en caso que se quiera un doc en word
+    #toc: true 
+    #toc_depth: 2
+---
+
+## 1. Operaciones sobre dataframes.
+
+### 1.1. Dataframes
+Los `dataframes` son estructuras de datos de dos dimensiones
+(rectangulares) que pueden contener datos de diferentes tipos, 
+por lo tanto, son heterogéneas. Podemos entender a los data frames 
+como una versión más flexible de una matriz. Las filas en un
+`dataframe` representan casos, individuos u observaciones, mientras 
+que las columnas representan atributos, rasgos o variables. Por 
+ejemplo, al visualizar el conjunto de datos `iris` que vienen
+en el paquete `ggplot2`, podemos ver que es un conjunto de 
+datos tabulares. 
+
+```{r, eval=TRUE, echo=TRUE}
+data(iris)
+head(iris)
+```
+
+Cabe destacar que un `dataframe`, en estricto rigor, es una 
+concatenación de vectores que pueden ser mediante columnas 
+(`cbind()`) o filas (`rbind()`).  
+
+```{r, eval=TRUE, echo=TRUE}
+mi_df <- data.frame(
+  "entero" = 1:3, 
+  "factor" = c("a", "b", "c"), 
+  "numero" = c(1.2, 3.4, 4.5),
+  "cadena" = as.character(c("a", "b", "c"))
+)
+mi_df
+```
+
+### 1.2. Libreria `dplyr`       
+El paquete, o libreria, `dplyr` fue desarrollado por Hadley 
+Wickham (creador de Rstudio), como una mejora sustantiva y
+optimizada de `plyr`.  El paquete esta escrito en el lenguaje
+`c++`. Esto permite que las funciones que proporciona este paquete
+sean mucho mas rapidas en relacion a su equivalente del paquete base.
+
+\newpage
+
+Este paquete, no viene por defecto en `R`, por lo que hay que 
+instalarlo desde los repositorios oficiales de `CRAN`. La
+instalación, es bastante sencilla.
+
+```{r, echo=TRUE, eval=FALSE}
+install.packages("dplyr", dep = TRUE)
+```
+
+La sintáxis anterior, nos dice que instale el paquete `dplyr`, y
+si este tiene algunas dependencias, que también las instale 
+(`dep=TRUE`). Una vez la librería instalada, debemos cargarla 
+en nuestro ambiente de trabajo. Para ello, utilizaremos la 
+siguiente sintáxis.
+
+```{r, eval=TRUE, echo=TRUE, message=FALSE}
+library("dplyr")
+```
+
+```{r, eval=TRUE, echo=FALSE, message=FALSE}
+library("ggplot2")
+library("stringr")
+```
+
+### 1.2. Funciones de `dplyr` 
+Las principales funciones que proporciona este paquete son:
+
+* `select`: devuelve solo las columnas indicadas de un dataframe.
+* `filter`: permite filtrar filas de una data frame según una
+expresión lógica.
+* `arrange`: ordena las filas de un data frame en función de 
+los valores de una o más columnas.
+* `rename`: permite cambiar el nombre de una columna.
+* `mutate`: permite agregar una nueva columna o transformar 
+una existente.
+* `summarise`: permite realizar resúmenes estadísticos de variables
+en un data frame.
+
+Una de las particularidades de las funciones de `dplyr`, es que 
+el primer argumento que ingresan en estas funciones, es el objeto
+`dataframe` al cual, se le aplicará una operación. Los argumentos
+restantes solo hacen alusion a realizar la operación. Por otro 
+lado, el resultado de la aplicación sucesiva de estas funciones, 
+devuelve otro `dataframe`.
+
+La función u operador, que permite ir encadenando todas estas 
+operaciones, es el operador `%>%` llamado *pipe*. Básicamente,
+lo que hace *pipe* es conectar la salida de una función, con 
+la entrada de la siguiente. 
+
+#### 1.2.1 `select()` 
+La función `select()` es utilizada para seleccionar columnas
+de un `dataframe` que queremos extraer. La sintáxis de esta
+función, es mediante `dplyr::select()`.  Existen dos 
+formas de utilizar esta función, la cual, se muestra en el
+siguiente trozo de código.
+
+```{r, echo=TRUE, eval=FALSE}
+# Opción 1
+mtcars %>% select(1,2)
+# Opción 2
+select(mtcars,1,2)
+```
+
+La opción 1, utiliza el conjunto de datos `mtcars` (viene 
+por defecto en el paquete `ggplot2`) y mediante el operador 
+pipe `%>%` pasa este conjunto de datos a la funcion `select()`
+en donde, seleccionamos la columna 1 y 2 del conjunto de datos.
+La opción 2, utiliza directamente `mtcars` en la función
+`select()` y selecciona la columna 1 y 2 del conjunto de datos.
+Ambas opciones, entregan el mismo resultado, un `dataframe`.
+
+```{r, eval=TRUE, echo=TRUE}
+# Opción 1 
+mtcars %>% select(1,2) %>% head(3)
+```
+
+```{r, eval=TRUE, echo=TRUE}
+# Opción 2
+select(mtcars,1,2) %>% head(3)
+```
+
+A ambos ejemplos anteriores, selecciono las columnas 1 y 2 
+del conjunto de datos `mtcars`, sin embargo, este nuevo
+`dataframe` se pasa mediante `%>%` a la funcion `head()` para 
+que solamente muestre los primeros tres registros.
+
+Con lo que ya hemos visto, pensariamos que la función `select()`
+es bastante limitada. Sin embargo, posee otras funcionalidades
+que la enriquecen, estas son:
+
+* `-` selecciona todas las columnas menos las indicadas.  
+
+```{r, eval=TRUE, echo=TRUE}
+mtcars %>% select(-c(mpg, disp)) %>% head(5)
+```
+
+La sintáxis anterior, toma el `dataframe` `mtcars` y quita
+las columnas `mpg`, `disp` del `dataframe` resultante el cual,
+mediante el operador `%>%` sólo muestra los primeros cinco 
+registros mediante la función `head()`.
+
+* `:` selecciona un rango de columnas.
+
+```{r, eval=TRUE, echo=TRUE}
+mtcars %>% select(1:3) %>% head(5)
+```
+
+La sintáxis anterior, toma el `dataframe` `mtcars` y muestra
+las columnas desde la 1 hasta la 3. Este nuevo `dataframe`,   mediante el operador `%>%`, sólo muestra los primeros cinco 
+registros mediante la función `head()`.
+
+* `starts_with` selecciona todas las columnas que comiencen con 
+el patrón indicado.
+
+```{r, eval=TRUE, echo=TRUE}
+iris %>% select(starts_with("Petal")) %>% head(5)
+```
+La sintáxis anterior, toma el `dataframe` `iris` y selecciona
+sólo las columnas o variables que comiencen con patrón `Petal`,
+este nuevo `dataframe` se pasa a la función `head()` mediante el
+operador `%>%` para que muestre los primeros cinco registros.
+
+* `ends_with` selecciona todas las columnas que terminen con el
+patrón indicado.
+
+```{r, eval=TRUE, echo=TRUE}
+iris %>% select(ends_with("Width")) %>% head(5)
+```
+
+La sintáxis anterior, toma el `dataframe` `iris` y selecciona
+sólo las columnas o variables que terminen con patrón `Width`,
+este nuevo `dataframe` se pasa a la función `head()` mediante el
+operador `%>%` para que muestre los primeros cinco registros.
+
+* `contains` selecciona las columnas que posean el patrón indicado.
+
+```{r, eval=TRUE, echo=TRUE}
+iris %>% select(contains("etal")) %>% head(5)
+```
+
+La sintáxis anterior, toma el `dataframe` `iris` y selecciona
+sólo las columnas o variables que contengan con patrón `etal`,
+este nuevo `dataframe` se pasa a la función `head()` mediante el
+operador `%>%` para que muestre los primeros cinco registros.
+
+* `matches` similar a contains, pero permite poner una expresión
+regular.
+
+```{r, eval=TRUE, echo=TRUE}
+select(iris, matches(".t.")) %>% head(5)
+```
+
+
+* `everything` completa con las columnas del `dataframe` no 
+pasadas como argumento. De esta forma se nos simplifican tareas 
+de reordenar las columnas, poniendo primeras las que nos interesen 
+destacar.
+
+```{r, eval=TRUE, echo=TRUE}
+iris %>% select(Species, everything()) %>% head(5)
+```
+
+
+* `one_of`  selecciona las variables pasadas en un vector.
+
+```{r, eval=TRUE, echo=TRUE}
+vars <- c("Petal.Length", "Petal.Width")
+iris %>% select(one_of(vars)) %>% head(5)
+```
+
+La sintáxis anterior, crea un vector `vars` que contiene
+el nombre de dos variables del `dataframe` `iris`. Luego, 
+mediante la funcion `select()`, toma de `iris` las variables 
+que declaramos en el vector `vars` y se pasa a el argumento
+`one_of`. El resultado, es un nuevo `dataframe` que pasa a la
+función `head()` mediante el operador `%>%` para que muestre los
+primeros cinco registros.
+
+
+\newpage
+
+#### 1.2.2 `filter()` 
+
+En la sección anterior, vimos que la función `select()`, 
+seleccionaba columnas de un conjunto de datos. La función 
+`filter()`, hace lo propio, pero con filas del conjunto de datos.
+En el siguiente ejemplo, entregamos  el `dataframe` `mtcars` a la
+función `filter` mediante el operador `%>%` en donde el `dataframe`
+resultante, es un un filtro que sólo contiene los registros donde
+la variable `cyl` sea idéntico a 4 y la variable `hp` sea mayor a 
+100. 
+
+```{r, eval=TRUE, echo=TRUE}
+mtcars %>% filter(cyl == 4 & hp > 100) 
+```
+
+Al igual que `select`, la función `filter` tiene otras 
+funcionalidades como lo son:
+
+* `near`, `between`, `%in%`
+
+```{r, eval=TRUE, echo=TRUE}
+msleep %>% 
+  select(name, sleep_total) %>% 
+  filter(near(sleep_total, 17, tol = sd(sleep_total)))
+```
+
+```{r, eval=TRUE, echo=TRUE}
+msleep %>% 
+    select(name, sleep_total) %>% 
+    filter(between(sleep_total, 16, 18)) 
+```
+
+```{r, eval=TRUE, echo=TRUE}
+msleep %>% 
+  select(order, name, sleep_total) %>% 
+  filter(order %in% c("Didelphimorphia", "Diprotodontia"))
+```
+
+* `str_detect`
+
+```{r, eval=TRUE, echo=TRUE}
+msleep %>% 
+  select(name, sleep_total) %>% 
+  dplyr::filter(str_detect(tolower(name), pattern = "mouse"))
+```
+
+* `filter_all()`
+
+```{r, eval=TRUE, echo=TRUE}
+msleep %>% 
+  select(name:order, sleep_total, -vore) %>% 
+  filter_all(any_vars(str_detect(., pattern = "Ca")))
+```
+
+* `filter_if()`
+
+```{r, eval=TRUE, echo=TRUE}
+msleep %>% 
+  select(name:order, sleep_total:sleep_rem) %>% 
+  filter_if(is.character, any_vars(is.na(.)))
+```
+
+* `filter_at()`
+
+```{r, eval=TRUE, echo=TRUE}
+msleep %>% 
+  select(name, sleep_total:sleep_rem, brainwt:bodywt) %>% 
+  filter_at(vars(sleep_total, sleep_rem), all_vars(.>5))
+```
+
+#### 1.2.3 `arrange()` 
+
+La función `arrange()` es usada para reordenar las filas de 
+una `dataframe` según una o más columnas. Por defecto `arrange()`
+ordena las filas por orden ascendente.
+
+```{r, eval=FALSE, echo=TRUE}
+# Opcion ascendente
+arrange(iris, Species)
+# Opcion descendente
+arrange(iris, desc(Species))
+```
+
+```{r, eval=TRUE, echo=TRUE}
+iris %>% select(Species, Sepal.Length) %>%
+  filter(Species %in% c("setosa","virginica")) %>%
+  arrange(Sepal.Length) %>% head(5)
+```
+
+#### 1.2.4 `rename()` 
+La función `rename()` permite modificar el nombre de una 
+columna, conservando el resto de columnas. La función `select()`
+permite realizar también una modificación en los nombre de las
+columnas, pero en ese caso sólo se conservan las columnas 
+seleccionadas.
+
+```{r, eval=TRUE, echo=TRUE}
+iris %>% select(Species, Sepal.Length, Sepal.Width) %>%
+  filter(Species == "setosa") %>%
+  rename(Tipo=Species, Largo=Sepal.Length, Ancho=Sepal.Width) %>%
+  arrange(desc(Largo)) %>% head(5)
+```
+
+\newpage
+
+#### 1.2.5 `mutate()` 
+Para crear una nueva variable a partir del `dataframe` original 
+podemos utilizar las funciones `mutate()` y `transmute()`.
+
+* `mutate()` creará una nueva columna con el resultado deseado 
+que se añadirá al dataframe.
+  
+* `transmute()` devolverá únicamente la nueva columna.
+
+```{r, eval=TRUE, echo=TRUE}
+iris %>% 
+    select(Species, Sepal.Length)%>%
+    mutate(Sepal2 = Sepal.Length^2)%>%
+    head(1)
+```
+
+```{r, eval=TRUE, echo=TRUE}
+iris %>% 
+    select(Species, Sepal.Length)%>%
+    transmute(Sepal2 = Sepal.Length^2)%>%
+    head(1)
+```
+
+#### 1.2.6 `summarise()` 
+La función `group_by` es usada para agrupar datos 
+según una variable. Una vez con los datos agrupados podemos 
+`summarize` para resumir estos utilizando una función de 
+agrupación (`group_by`).
+
+```{r, eval=TRUE, echo=TRUE}
+mtcars %>% 
+  select(mpg, hp, cyl, wt) %>% 
+  filter(cyl != 4 & wt > 3.000) %>% 
+  group_by(cyl) %>% 
+  summarize(mean(hp), mean(mpg))
+```  
+
+```{r, eval=TRUE, echo=TRUE}
+ mtcars %>% 
+  select(mpg, hp, cyl, wt) %>% 
+  filter(cyl != 4 & wt > 3.000) %>% 
+  group_by(cyl) %>% 
+  summarize(mean(hp), mean(mpg)) %>%
+  rename(Prom_hp =`mean(hp)`,
+         Prom_mpg = `mean(mpg)`)
+```  
+
+\newpage
+
+## 2. Joins y funciones estadísticas
+
+### 2.1. `joins` 
+
+Las sentencias de **joins** en R, al igual que en SQL, 
+permite combinar registros de una o más tablas en una base 
+de datos.  La función **merge** en R, permite fusionar o unir
+dos `dataframe` por columnas comunes o por nombres de fila.
+
+Sin embargo, el uso de las funciones join de `dplyr`, permite 
+realizar diferentes combinaciones de bases de datos, como unión
+izquierda (`left join`), unión interna (`inner join`), unión
+derecha (`right join`) o unión completa (`full join`), entre 
+otras. Estas funciones se encuentran tipificadas en `dplyr`
+mediante las siguientes funciones.
+
+```{r, eval=FALSE, echo=TRUE}
+left_join()
+right_join()
+inner_join()
+full_join()
+```
+Cabe destacar que las cuatro funciones anteriores, se denominan *uniones mutantes*. Éstas
+uniones, combinan variables de las dos fuentes de datos y es en la que se enfoca este curso. Sin embargo, existen otras funciones para generar otro tipo de combinaciones. 
+Éstas funciones se conocen como *uniones de filtrado* y dentro de éstas funciones, 
+tenemos las funciones de `semi_join()` y `anti_join()`. Para mayor información de 
+cómo funcionan y en qué contexto se utilizan, revisar la [documentación oficial](https://dplyr.tidyverse.org/reference/filter-joins.html)
+
+#### 2.1.2 `inner join` 
+
+Un `inner join`, es la unión de conjuntos de datos más habitual 
+que se puede realizar.  Consiste en fusionar dos `dataframe`
+en uno que contenga los elementos comunes de ambos. 
+
+```{r, eval=TRUE, echo=FALSE}
+set.seed(1234)
+trabajador_id <- 1:10
+trabajador_nombre <- c("Andrew", "Susan", "John", "Joe", "Jack",
+                   "Jacob", "Mary", "Kate", "Jacqueline", "Ivy")
+
+trabajador_salario <- round(rnorm(10, mean = 1500, sd = 200))
+trabajador_edad    <- round(rnorm(10, mean = 50, sd = 8))
+trabajador_puesto  <- c("CTO", "CFO", "Administrativo", rep("Técnico", 7))
+
+df1 <- data.frame(id = trabajador_id[1:8], nombre = trabajador_nombre[1:8],
+                  salario_mensual = trabajador_salario[1:8])
+
+df2 <- data.frame(id = trabajador_id[-5], nombre = trabajador_nombre[-5],
+                   edad = trabajador_edad[-5], position = trabajador_puesto[-5])
+```
+
+
+```{r, eval=TRUE, echo=TRUE}
+merge(x = df1, y = df2, by = c("id", "nombre"))
+```
+
+```{r, eval=TRUE, echo=TRUE}
+dplyr::inner_join(df1, df2, by = c("id", "nombre"))
+```
+
+Cabe destacar que el uso del parámetro `by` no es necesario explícitamente utilizarlo,
+sin embargo, se recomienda fuertemente su utilización debido que forma parte de buenas
+prácticas de programación y permite evitar uniones inesperadas de conjunto de datos.
+
+#### 2.1.3 `full (outer) join`
+
+El `outer join`, o unión completa, combina todas las columnas 
+de ambos conjuntos de datos en uno para todos los elementos. 
+Para crear el `full outer join` de dos `dataframe` con `merge`
+hay que establecer el argumento `all` como `TRUE`
+
+```{r, eval=TRUE, echo=TRUE}
+merge(x = df1, y = df2, all = TRUE)
+```
+
+
+```{r, eval=TRUE, echo=TRUE}
+dplyr::full_join(df1, df2)
+```
+
+#### 2.1.4 `left (outer) Join`
+
+El `left join` en R consiste en unir todas las filas del primer
+`dataframe` con los valores correspondientes del segundo. Para
+crear el `left outer join` de dos `dataframe` con `merge`
+hay que establecer el argumento `all.x` como `TRUE`
+
+```{r, eval=TRUE, echo=TRUE}
+merge(x = df1, y = df2, all.x = TRUE)
+```
+
+```{r, eval=TRUE, echo=TRUE}
+dplyr::left_join(df1, df2)
+```
+
+#### 2.1.5 `Right (outer) Join`
+
+El `right join` en R es lo opuesto al `left outer join`. En este
+caso, la combinación consiste en unir todas las filas del segundo 
+`dataframe` con las correspondientes en el primero. Para crear el
+`right outer join` de dos `dataframe` con `merge` hay que
+establecer el argumento `all.y` como `TRUE`
+
+```{r, eval=TRUE, echo=TRUE}
+merge(x = df1, y = df2, all.y = TRUE)
+```
+
+```{r, eval=TRUE, echo=TRUE}
+dplyr::right_join(df1, df2)
+```
+
+
+#### 2.1.6 Funciones Estadísticas
+
+`summarise()` crea un nuevo marco de datos. La salida tendrá una
+sola fila que resuma todas las  observaciones en la entrada 
+(tendencia central, conteo, posición, rango, dispersión, etc.). 
+Contendrá una columna para cada variable de agrupación y una
+columna para cada una de las estadísticas de resumen que haya
+especificado.
+
+```{r, eval=FALSE, echo=TRUE, message=FALSE}
+iris %>% 
+  group_by(Species) %>%
+  summarise(n = n())
+```
+
+```{r, eval=FALSE, echo=TRUE, message=FALSE}
+iris %>% 
+  group_by(Species) %>%
+  summarise(
+    n = n() ,
+    Sepal.Mean = mean(Sepal.Width), 
+    Sepal.Sd = sd(Sepal.Width)
+  )
+```

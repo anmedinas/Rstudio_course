@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Programación en R.</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Programación en R.">
+  <meta name="author" content="">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/github.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="libraries/widgets/quiz/css/demo.css"></link>
+<link rel=stylesheet href="libraries/widgets/bootstrap/css/bootstrap.css"></link>
+<link rel=stylesheet href="libraries/widgets/interactive/css/aceeditor.css"></link>
+<link rel=stylesheet href="libraries/widgets/nvd3/css/nv.d3.css"></link>
+<link rel=stylesheet href="libraries/widgets/nvd3/css/rNVD3.css"></link>
+<link rel=stylesheet href="libraries/widgets/leaflet/external/leaflet.css"></link>
+<link rel=stylesheet href="libraries/widgets/leaflet/external/leaflet-rCharts.css"></link>
+<link rel=stylesheet href="libraries/widgets/leaflet/external/legend.css"></link>
+<link rel=stylesheet href="./assets/css/ribbons.css"></link>
+<link rel=stylesheet href="./assets/css/style.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  <script src="libraries/widgets/nvd3/js/jquery-1.8.2.min.js"></script>
+<script src="libraries/widgets/nvd3/js/d3.v3.min.js"></script>
+<script src="libraries/widgets/nvd3/js/nv.d3.min-new.js"></script>
+<script src="libraries/widgets/nvd3/js/fisheye.js"></script>
+<script src="libraries/widgets/leaflet/external/leaflet.js"></script>
+<script src="libraries/widgets/leaflet/external/leaflet-providers.js"></script>
+<script src="libraries/widgets/leaflet/external/Control.FullScreen.js"></script>
+
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+    
+  <slide class="nobackground">
+    <article class="flexbox vcenter">
+      <span>
+        <img width='300px' src="assets/img/Rlogo.png">
+      </span>
+    </article>
+  </slide>
+    <slide class="title-slide segue nobackground">
+  
+  <hgroup class="auto-fadein">
+    <h1>Programación en R.</h1>
+    <h2>Módulo 02 - Manejo de datos estructurados.</h2>
+    <p><br/></p>
+  </hgroup>
+  
+  <article></article>  
+  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="class" id="id" style="background:;">
+  
+  <article data-timings="">
+    <style type="text/css">
+body {background:grey transparent;
+}
+</style>
+
+<!-- Slide 01 -->
+
+<h2>Agenda del Curso</h2>
+
+<ul class = "build incremental">
+<li><p><strong>Módulo 1: Introducción a la programación en R.</strong></p>
+
+<ol>
+<ul style="list-style-type:square">
+<li> Ambiente de programación. </li>
+<li> Tipos de datos y estructuras de datos básicos. </li>
+<li> Control de flujo y funciones. </li>
+</ul>
+</ol> </li>
+<li><p><strong>Módulo 2: Manejo de datos estructurados.</strong></p>
+
+<ol>
+<ul style="list-style-type:square">
+<li> Operaciones sobre dataframes. </li>
+<li> Joins y funciones estadísticas. </li>
+</ul>
+</ol> </li>
+<li><p><strong>Módulo 3: Importar y exportar archivos de datos.</strong></p>
+
+<ol>
+<ul style="list-style-type:square">
+<li> Importar y exportar archivos de datos. </li>
+<li> Conexión a bases de datos SQL. </li>
+</ul>
+</ol> </li>
+<li><p><strong>Módulo 4: Visualización de datos.</strong></p>
+
+<ol>
+<ul style="list-style-type:square">
+<li> Librería ggplot2 y elementos estéticos de gráficos. </li>
+</ul>
+</ol> </li>
+</ul>
+
+<!-- Slide 02 -->
+
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="segue" id="slide-2" style="background:grey;">
+  
+  <hgroup>
+    <h1>Módulo 2: Manejo de datos estructurados.</h1>
+  </hgroup>
+  
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 03 -->
+
+<h2>Dataframes</h2>
+
+<div style='float:left;width:48%;' class='centered'>
+  <ul class = "build incremental">
+<li><p>Los <code>dataframes</code> son estructuras de datos de dos 
+dimensiones (rectangulares) que pueden contener datos 
+de diferentes tipos, por lo tanto, son heterogéneos.</p></li>
+<li><p>Podemos entender a los data frames como una versión más flexible de una matriz.</p></li>
+<li><p>Las filas en un <code>dataframe</code> representan casos, individuos 
+u observaciones, mientras que las columnas representan atributos, rasgos o variables.</p></li>
+</ul>
+
+</div>
+<div style='float:right;width:48%;'>
+  <pre><code class="r">data(iris)
+head(iris)
+</code></pre>
+
+<p><img class="center" width=1500px height=1500px src="assets/img/head.png"></img></p>
+
+<ul>
+<li><code>dataframes</code> se conforman mediante vectores.</li>
+</ul>
+
+<pre><code class="r">mi_df &lt;- data.frame(
+  &quot;entero&quot; = 1:3, 
+  &quot;factor&quot; = as.factor(c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;)), 
+  &quot;numero&quot; = c(1.2, 3.4, 4.5),
+  &quot;cadena&quot; = c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;)
+)
+</code></pre>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 03 -->
+
+<h2>dplyr</h2>
+
+<div style='float:left;width:48%;' class='centered'>
+  <ul>
+<li>El paquete <code>dplyr</code> fue desarrollado por Hadley Wickham (RStudio) como una optimización del paquete <code>plyr</code>. </li>
+</ul>
+
+<blockquote>
+<p>El paquete está escrito en <code>C++</code>. Las funciones que provee permiten hacer operaciones más rápido que su equivalente del paquete base.</p>
+</blockquote>
+
+<ul>
+<li><p>La instalación es sencilla. </p>
+
+<pre><code class="r">install.packages(&quot;dplyr&quot;, dep=TRUE)
+</code></pre></li>
+<li><p>Para cargar la librería, usar:</p>
+
+<pre><code class="r">library(&quot;dplyr&quot;)
+</code></pre></li>
+</ul>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p><code>funciones</code></p>
+
+<ul>
+<li><code>select()</code>: selecccionar</li>
+<li><code>filter()</code>: filtrar</li>
+<li><code>arrange()</code>: ordenar</li>
+<li><code>rename()</code>: renombrar</li>
+<li><code>mutate()</code>: mutar</li>
+<li><code>summarise()</code>: resumir</li>
+</ul>
+
+<pre><code class="r">dplyr::select()
+dplyr::filter()
+dplyr::arrange()
+dplyr::rename()
+dplyr::mutate()
+dplyr::summarise()
+</code></pre>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-5" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 03 -->
+
+<h2>select()</h2>
+
+<div style='float:left;width:48%;' class='centered'>
+  <ul>
+<li><p>La función <code>select()</code> es usada para seleccionar 
+columnas de un <code>dataframe</code> que queremos extraer.</p></li>
+<li><p>Estas son dos formas de utilizar esta función: </p>
+
+<pre><code class="r"># Opcion 1
+mtcars %&gt;% select(1,2)
+# Opcion 2
+select(mtcars,1,2)
+</code></pre></li>
+<li><p>Operador <code>%&gt;%</code> (<code>pipe</code>) </p></li>
+<li><p>Los ejemplos descritos, se encuentran en:</p>
+
+<p><span class="footnote"> Código: <a href="">M2_C1_script01.R</a> </span></p></li>
+</ul>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p><code>Ejemplo 1</code></p>
+
+<pre><code class="r"># Opcion 1 
+mtcars %&gt;% select(1,2) %&gt;% head(3)
+</code></pre>
+
+<pre><code>##                mpg cyl
+## Mazda RX4     21.0   6
+## Mazda RX4 Wag 21.0   6
+## Datsun 710    22.8   4
+</code></pre>
+
+<pre><code class="r"># Opcion 2
+select(mtcars,1,2) %&gt;% head(3)
+</code></pre>
+
+<pre><code>##                mpg cyl
+## Mazda RX4     21.0   6
+## Mazda RX4 Wag 21.0   6
+## Datsun 710    22.8   4
+</code></pre>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-6" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 03 -->
+
+<h2>select()</h2>
+
+<div style='float:left;width:48%;' class='centered'>
+  <ul>
+<li><p>Otras funcionalidades:</p>
+
+<ul>
+<li><code>-</code><br></li>
+<li><code>:</code></li>
+<li><code>starts_with</code></li>
+<li><code>ends_with</code></li>
+<li><code>contains</code></li>
+<li><code>matches</code></li>
+<li><code>everything</code></li>
+<li><code>one_of</code></li>
+</ul></li>
+<li><p>Los ejemplos descritos, se encuentran en:</p>
+
+<p><span class="footnote"> Código: <a href="">M2_C1_script01.R</a> </span></p></li>
+</ul>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p><code>Ejemplo 2</code></p>
+
+<pre><code class="r">mtcars %&gt;% select(-c(&quot;drat&quot;,&quot;wt&quot;,&quot;qsec&quot;,
+&quot;vs&quot;,&quot;am&quot;,&quot;gear&quot;,&quot;carb&quot;)) %&gt;% head(3)
+</code></pre>
+
+<pre><code>##                mpg cyl disp  hp
+## Mazda RX4     21.0   6  160 110
+## Mazda RX4 Wag 21.0   6  160 110
+## Datsun 710    22.8   4  108  93
+</code></pre>
+
+<pre><code class="r">mtcars %&gt;% select(1:4) %&gt;% head(3)
+</code></pre>
+
+<pre><code>##                mpg cyl disp  hp
+## Mazda RX4     21.0   6  160 110
+## Mazda RX4 Wag 21.0   6  160 110
+## Datsun 710    22.8   4  108  93
+</code></pre>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-7" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 03 -->
+
+<h2>filter()</h2>
+
+<div style='float:left;width:48%;' class='centered'>
+  <ul>
+<li><p>La función <code>filter()</code> filtra las filas y deja solo las que cumplen una condición dada. </p></li>
+<li><p>Algunas funcionalidades.</p>
+
+<ul>
+<li><code>near</code>, <code>between</code>, <code>%in%</code><br></li>
+<li><code>str_detect</code></li>
+<li><code>filter_all()</code></li>
+<li><code>filter_if()</code></li>
+<li><code>filter_at()</code><br></li>
+</ul></li>
+<li><p>Los ejemplos descritos, se encuentran en:</p>
+
+<p><span class="footnote"> Código: <a href="">M2_C1_script02.R</a> </span></p></li>
+</ul>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p><code>Ejemplo 3</code></p>
+
+<pre><code class="r">msleep %&gt;% 
+  select(name, sleep_total) %&gt;% 
+  filter(sleep_total &gt; 18) 
+</code></pre>
+
+<pre><code>## # A tibble: 4 × 2
+##   name                 sleep_total
+##   &lt;chr&gt;                      &lt;dbl&gt;
+## 1 Big brown bat               19.7
+## 2 Thick-tailed opposum        19.4
+## 3 Little brown bat            19.9
+## 4 Giant armadillo             18.1
+</code></pre>
+
+<blockquote>
+<p>Operadores: <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>==</code>, <code>!=</code></p>
+</blockquote>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-8" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 03 -->
+
+<h2>arrange()</h2>
+
+<div style='float:left;width:48%;' class='centered'>
+  <ul>
+<li><p>La función <code>arrange()</code> es usada para reordenar las filas de un data frame según una o más columnas. </p></li>
+<li><p>Por defecto <code>arrange()</code> ordena las filas en orden ascendente.</p>
+
+<pre><code class="r"># Opcion ascendente
+arrange(iris, Species)
+# Opcion descendente
+arrange(iris, desc(Species))
+</code></pre></li>
+<li><p>Los ejemplos descritos, se encuentran en:</p>
+
+<p><span class="footnote"> Código: <a href="">M2_C1_script03.R</a> </span></p></li>
+</ul>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p><code>Ejemplo 4</code></p>
+
+<pre><code class="r">iris %&gt;% select(Species, Sepal.Length) %&gt;%
+  filter(Species == &quot;setosa&quot;) %&gt;%
+  arrange(Sepal.Length) %&gt;% head(5)
+</code></pre>
+
+<pre><code>##   Species Sepal.Length
+## 1  setosa          4.3
+## 2  setosa          4.4
+## 3  setosa          4.4
+## 4  setosa          4.4
+## 5  setosa          4.5
+</code></pre>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-9" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 03 -->
+
+<h2>rename()</h2>
+
+<div style='float:left;width:48%;' class='centered'>
+  <ul>
+<li><p>La función <code>rename()</code> permite modificar el nombre de una o más columnas, conservando el resto.</p></li>
+<li><p>La función <code>select()</code> permite realizar también 
+una modificación en los nombre de las columnas, pero 
+en ese caso solo se conservan las columnas seleccionadas.</p></li>
+<li><p>Los ejemplos descritos, se encuentran en:</p>
+
+<p><span class="footnote"> Código: <a href="">M2_C1_script04.R</a> </span></p></li>
+</ul>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p><code>Ejemplo 5</code></p>
+
+<pre><code class="r">iris %&gt;% select(Species, Sepal.Length, 
+                  Sepal.Width) %&gt;%
+  filter(Species == &quot;setosa&quot;) %&gt;%
+  rename(Tipo=Species, Largo=Sepal.Length, 
+              Ancho=Sepal.Width) %&gt;%
+  arrange(desc(Largo)) %&gt;% head(5)
+</code></pre>
+
+<pre><code>##     Tipo Largo Ancho
+## 1 setosa   5.8   4.0
+## 2 setosa   5.7   4.4
+## 3 setosa   5.7   3.8
+## 4 setosa   5.5   4.2
+## 5 setosa   5.5   3.5
+</code></pre>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-10" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 03 -->
+
+<h2>mutate()</h2>
+
+<div style='float:left;width:48%;' class='centered'>
+  <ul>
+<li><p>Para crear una nueva variable a partir del dataframe original 
+podemos utilizar las funciones <code>mutate()</code> y <code>transmute()</code>.</p></li>
+<li><p><code>mutate()</code> creará una nueva columna con el resultado deseado que se añadirá al dataframe.</p></li>
+<li><p><code>transmute()</code> devuelve únicamente las columnas mencionadas en transmute. Además, se puede seleccionar columnas y modificar el nombre de las columnas, todo en una sola función.</p></li>
+<li><p><span class="footnote"> Código: <a href="">M2_C1_script05.R</a> </span></p></li>
+</ul>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p><code>Ejemplo 6</code></p>
+
+<pre><code class="r">iris %&gt;% 
+    select(Species, Sepal.Length)%&gt;%
+    mutate(Sepal2 = Sepal.Length^2)%&gt;%
+    head(1)
+</code></pre>
+
+<pre><code>##   Species Sepal.Length Sepal2
+## 1  setosa          5.1  26.01
+</code></pre>
+
+<pre><code class="r">iris %&gt;% 
+    transmute(Species, Sepal2 = Sepal.Length^2) %&gt;%
+    head(1)
+</code></pre>
+
+<pre><code>##   Species Sepal2
+## 1  setosa  26.01
+</code></pre>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-11" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 03 -->
+
+<h2>summarise()</h2>
+
+<div style='float:left;width:48%;' class='centered'>
+  <ul>
+<li><p>La función <code>group_by</code> es usada para agrupar datos 
+según una variable. </p></li>
+<li><p>Una vez con los datos agrupados podemos usar <code>summarize</code> para 
+resumir estos utilizando función de agrupación <code>group_by</code>. </p>
+
+<pre><code class="r">mtcars %&gt;% 
+select(mpg, hp, cyl, wt) %&gt;% 
+filter(cyl != 4 &amp; wt &gt; 3.000) %&gt;% 
+group_by(cyl) %&gt;% 
+summarize(mean(hp), mean(mpg))
+</code></pre></li>
+<li><p>Los ejemplos descritos, se encuentran en:</p>
+
+<p><span class="footnote"> Código: <a href="">M2_C1_script06.R</a> </span></p></li>
+</ul>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p><code>Ejemplo 7</code></p>
+
+<pre><code class="r"> mtcars %&gt;% 
+  select(mpg, hp, cyl, wt) %&gt;% 
+  filter(cyl != 4 &amp; wt &gt; 3.000) %&gt;% 
+  group_by(cyl) %&gt;% 
+  summarize(mean(hp), mean(mpg)) %&gt;% #Dentro del summarise se puede crear la variable Prom_hp=mean(hp), Prom_mpg=mean(mpg)
+  rename(Prom_hp =`mean(hp)`,
+         Prom_mpg = `mean(mpg)`)
+</code></pre>
+
+<pre><code>## # A tibble: 2 × 3
+##     cyl Prom_hp Prom_mpg
+##   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
+## 1     6    115.     19.1
+## 2     8    209.     15.1
+</code></pre>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='NA'>
+         1
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Módulo 2: Manejo de datos estructurados.'>
+         2
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='NA'>
+         3
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='NA'>
+         4
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='NA'>
+         5
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=6 title='NA'>
+         6
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=7 title='NA'>
+         7
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=8 title='NA'>
+         8
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=9 title='NA'>
+         9
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=10 title='NA'>
+         10
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=11 title='NA'>
+         11
+      </a>
+    </li>
+    
+    </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  <script src="libraries/widgets/quiz/js/jquery.quiz.js"></script>
+<script src="libraries/widgets/quiz/js/mustache.min.js"></script>
+<script src="libraries/widgets/quiz/js/quiz-app.js"></script>
+<script src="libraries/widgets/bootstrap/js/bootstrap.min.js"></script>
+<script src="libraries/widgets/bootstrap/js/bootbox.min.js"></script>
+<script src="libraries/widgets/interactive/js/ace/js/ace.js"></script>
+<script src="libraries/widgets/interactive/js/interactive.js"></script>
+
+  <!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script> -->
+  
+<script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="libraries/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+
+  
+  <script>  
+  $(function (){ 
+    $("#example").popover(); 
+    $("[rel='tooltip']").tooltip(); 
+  });  
+  </script>  
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>

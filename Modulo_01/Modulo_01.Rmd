@@ -1,0 +1,741 @@
+---
+title: "Módulo 01: Introducción a la programación en R"
+author: "Andrés C. Medina"
+date: "1/14/2022"
+output:
+    pdf_document:     
+    toc: true 
+    toc_depth: 2
+    #word_document: default   # en caso que se quiera un doc en word
+    #toc: true 
+    #toc_depth: 2
+---
+
+# 1. ¿Qué es R?
+
+Este documento es el material de profundización de contenidos 
+del primer módulo del curso titulado *Programación en R y Rstudio*. 
+Desarrolla los aspectos introductorios de R y Rstudio, en 
+particular, sintáxis básica y shortcuts utilizados.
+
+R, es un lenguaje de programación que fue desarrollado por Ross 
+Ihaka y Robert Gentleman (académicos del departamento de 
+estadística de la universidad de Auckland, Nueva Zelanda) en 1995,
+como un dialecto del lenguaje S que había sido creado a 
+principios del año 90 por los laboratorios AT&T Bell.  A mediados 
+del 2000 ya existía  una versión final estable de R. R, es un 
+lenguaje de programación que se especializa en estadística. 
+Esta especialización hace que el lenguaje disponga de múltiples 
+herramientas y paquetes para el análisis y modelado estadístico. 
+
+Una de las grandes ventajas que tiene R, es que es un software 
+libre con licencia GNU/LGPL. Es un software libre porque los 
+autores decidieron crear una implementación abierta y gratuita de 
+S, que en ese entonces, era restringido. Es GNU/LGPL porque garantiza la 
+libertad de compartir y modificar el software cubierto por ella, asegurando 
+que el software es libre para todos sus usuarios. Por otro lado, R es 
+un lenguaje multiplataforma, esto quiere decir que existe y funciona en 
+sistemas operativos como Windows y sistemas UNIX (Mac y Linux incluidos). 
+
+R tiene muchísima documentación. A veces esta característica se 
+percibe como una desventaja, pero en realidad, gracias a los foros 
+y comunidades de desarrollo, se ha ido disipando esta idea a 
+través del tiempo. 
+
+R es un software de programación en línea de comando. Esto se 
+consideraba una desventaja pues carecía de un entorno amigable 
+que permitiese acceder de manera sencilla a toda la potencia de R.
+La figura 1,  ilustra la interfaz con la que el usuario debía
+interactuar cada vez que iniciaba sesión en R tanto en sistemas 
+operativos windows,  como en sistemas operativos Linux.
+
+
+```{r, eval=TRUE, echo=FALSE, warning=FALSE, fig.align="center",fig.cap = "a) Interfaz de R sistemas operativos Windows, b) Interfaz de R sistemas Linux (Ubuntu)"}
+library("cowplot")
+library("ggplot2")
+p1 <-  ggdraw() + draw_image("figs/Caps_R.jpg", scale = 0.9)
+p2 <-  ggdraw() + draw_image("figs/TerminalR.png", scale = 0.9)
+plot_grid(p1, p2)
+```
+
+# 2. Descarga e Instalación de R
+La descarga e instalación de R es bastante sencilla y depende de en 
+que sistema operativo se esta trabajando.  No obstante, para 
+efectos de este documento, la guía de descarga e instalación se 
+hará bajo sistema operativo Windows. 
+
+```{r, eval=TRUE, echo=FALSE, warning=FALSE, fig.align="center",fig.cap = "Página Oficial de R"}
+library("cowplot")
+library("ggplot2")
+p1 <-  ggdraw() + draw_image("figs/PaginaR01.png", scale = 0.9)
+p1
+```
+La figura 2 presenta el inicio de la página oficial de [R](https://www.r-project.org). 
+Como se puede apreciar, presenta bastante información como documentación, foros, 
+artículos y libros relacionados al uso del software en diversas disciplinas científicas.
+Además, muestra las últimas versiones estables de R. Para proceder a la descarga, se 
+debe hacer click en el hipervínculo `CRAN` y los redireccionará a una página que contiene
+todos los mirrors  disponibles de R. 
+
+```{r, eval=TRUE, echo=FALSE, warning=FALSE, fig.align="center",fig.cap = "Diferentes opciones de mirrors para descargar R"}
+library("cowplot")
+library("ggplot2")
+p1 <-  ggdraw() + draw_image("figs/PaginaR02.png", scale = 0.9)
+p1
+```
+
+Si bien se puede descargar el instalador de R desde cualquier 
+mirror (país/institución donde esté alojado) (figura 3), se aconseja que 
+se utilice uno del mismo país de residencia. En este contexto, 
+utilizamos un mirror de Chile que se encuentra en el departamento 
+de ciencias de la computación de la Universidad de Chile. Al hacer 
+click en el hipervínculo, nos va a direccionar a una nueva página 
+donde se puede descargar R para diferentes sistemas operativos 
+(figura 4). 
+
+```{r, eval=TRUE, echo=FALSE, warning=FALSE, fig.align="center",fig.cap = "Descarga de R para diferentes sistemas operativos"}
+library("cowplot")
+library("ggplot2")
+p1 <-  ggdraw() + draw_image("figs/PaginaR03.png", scale = 0.9)
+p1
+```
+
+La figura 5 presenta diferentes alternativas de instaladores de 
+R, sin embargo, se ofrece como alternativa (para los recién 
+iniciados) la opción de *install R for the first time*. Otra 
+herramienta muy útil es *Rtools* que ofrece un completo toolkit 
+de compiladores que son muy necesarios si se está pensando en 
+el desarrollo de paquetes.  
+
+```{r, eval=TRUE, echo=FALSE, warning=FALSE, fig.align="center",fig.cap = "Diferentes Opciones de instaladores de R"}
+library("cowplot")
+library("ggplot2")
+p1 <-  ggdraw() + draw_image("figs/PaginaR04.png", scale = 0.9)
+p1
+```
+
+La figura 6 nos ofrece el instalador de R para máquinas de 32 y 
+64 bits. La versión que nos presenta, es la versión R-4.1.3 que
+pesa 87 megabytes. Una vez presionado el hipervínculo, la descarga comenzará 
+inmediatamente. Una vez concluida la descarga, se procede a abrir el instalador y 
+seguir pasos para finalizar.
+
+```{r, eval=TRUE, echo=FALSE, warning=FALSE, fig.align="center",fig.cap = "Descarga de R para Windows"}
+library("cowplot")
+library("ggplot2")
+p1 <-  ggdraw() + draw_image("figs/PaginaR05.png", scale = 0.5)
+p1
+```
+
+# 3.  ¿Qué es Rstudio?.
+
+En la sección anterior, vimos que R es el lenguaje de programación, sin embargo
+en sus inicios, carecía de un entorno amigable. En este sentido, a mediados del 2011
+se desarrollo RStudio como una  interfaz o IDE (entorno de desarrollo integrado, en español). Eso significa que RStudio es un programa para manejar R y utilizarlo de 
+manera más cómoda y eficiente en todos sus aspectos.
+
+Rstudio esta escrito en lenguaje C# y al igual que R, es libre y multiplataforma. Una de sus características es la distribución de herramientas en distintos paneles. Los 4 paneles por defecto se muestran en la imagen 7, pero uno podría editarlos o agregar nuevos, si así lo desea. 
+
+```{r, eval=TRUE, echo=FALSE, warning=FALSE, fig.align="center",fig.cap = "Rstudio IDE"}
+library("cowplot")
+library("ggplot2")
+p1 <-  ggdraw() + draw_image("figs/Rstudio4.png", scale = 0.9)
+p1
+```
+
+Otro de sus beneficios, es que es posible trabajar en varios scripts simultaneamente, y no sólo de R, sino que también puede ejecutar códigos de python, c++, c, css, html, sql, y muchos más. Además, contiene un debugeador de código que lo hace
+altamente eficiente a la hora de encontrar errores en los códigos. 
+
+En cuanto a  reportería, se puede utilizar archivos RMarkdown para mezclar código en formato Markdown junto con código de todos los lenguajes mencionados antes y más, para luego exportar informes en formatos .html, .pdf, .docx y otros. Además, permite crear presentaciones y exportarlas a .html, .pdf, .pptx. Estas presentaciones se pueden estilizar con librerías como slidify, sharingan y muchas otras.
+
+# 4.  Instalación de Rstudio.
+
+La instalacion de Rstudio, es bastante sencilla. Para comenzar, debemos
+ir a la página oficial de [Rstudio](https://www.rstudio.com/products/rstudio/) en
+donde veremos algo similar a lo mostrado en la figura 8.a). Rstudio, muchas versiones. Las dos más importantes son: 
+
+1) La versión `Desktop`: Para correr Rstudio en nuestro computador
+2) La versión `server`: Que proporciona una interfaz basada en navegador para una 
+versión de R que se ejecuta en un servidor remoto.
+
+Una vez elegida la opción `Desktop`, aparecerá una descripción (como lo muestra la figura 8.b)) que nos presenta las cualidades de la version `open source` (libre de pago) y la de `Rstudio Desktop Pro` (que tiene una membresía). Para efectos de este
+curso, utilizarmos la versión `open source` que es libre de pago.
+
+```{r, eval=TRUE, echo=FALSE, warning=FALSE, fig.align="center",fig.cap = "a) Opciones de descarga de Rstudio Desktop y Rstudio Server, b) Cualidades que ofrecen Rstudio Open Source y Rstudio Desktop Pro"}
+library("cowplot")
+library("ggplot2")
+p1 <- ggdraw() + draw_image("figs/PaginaRstudio01.png", scale = 0.9)
+p2 <- ggdraw() + draw_image("figs/PaginaRstudio02.png", scale = 0.9)
+plot_grid(p1, p2)
+```
+
+Una vez elegida la versión `open source`, aparecerá un menú como lo muestra la 
+figura 9.a) en donde tendremos diferentes versiones de Rstudio, dependiendo del sistema
+operativo en el cual nos encontremos trabajando. Como habíamos dicho anteriormente, 
+para efectos de este curso, utilizaremos la version de Windows por lo que descargaremos
+el instalador RStudio-2022.02.1-461.exe o el a cada uno le aparezca como el más actual para Windows. Una vez descargado, se instala siguiendo las instrucciones.
+
+```{r, eval=TRUE, echo=FALSE, warning=FALSE, fig.align="center",fig.cap = "a) Diferentes versiones para instalar Rstudio dependiendo del sistema operativo, b) Visualización inicial de Rstudio"}
+library("cowplot")
+library("ggplot2")
+p1 <- ggdraw() + draw_image("figs/PaginaRstudio03.png", scale = 0.9)
+p2 <- ggdraw() + draw_image("figs/Rstudio3.png", scale = 0.9)
+plot_grid(p1, p2)
+```
+
+# 5. Entorno Rstudio.
+
+Rstudio permite usar R de manera más fluida. Básicamente se trata de una máscara 
+para visualizar y trabajar con R. Algunas de sus principales ventajas son:  
+
+1) El orden 
+2) La visualización de los procesos que son llevados a cabo con R, todo de manera
+simultánea. 
+
+En la figura 9.b), se pueden visualizar cuatro paneles además de 
+la barra de opciones en la parte superior.
+
+* **Panel 1** (Editor de scripts): Se trata del lugar donde
+editamos los scripts para posteriormente ejecutarlos. Al escribir
+allí no sucederá nada, a no ser que se presione algún botón para ejecutar los comandos (como `source` ó `Run`) o las teclas Ctrl+Enter. Lo recomendado es siempre ocupar atajos de teclado e ir memorizandolos de a poco. Ctrl+Enter es de los más importantes. 
+
+* **Panel 2** (Entorno de trabajo): En este lugar se muestra 
+el conjunto de datos y los `objetos` (resultados, variables,
+gráficos, etc.) que se almacenan al ejecutar diferentes análisis. Además, este panel tiene más pestañas (historial, conexiones, git, tutorial) que podrán explorar por su cuenta. 
+
+* **Panel 3** (Consola): Muestra R en su versión básica. Allí se  muestra el resultado de todo lo que uno ejecuta en los scripts. También es posible ejecutar comandos aislados en la consola, pero en general es recomendable evitarlo, ya que es mucho más fácil recuperar el código ejecutado usando scripts. Usar scripts hace que sea mucho más fácil obtener código reproducible, por lo que la consola debería usarse solo para ver el resultado de los códigos. 
+
+* **Panel 4**: Este panel, tiene varias pestañas: (i) la
+pestaña `files` es un explorador de carpetas; (ii) la pestaña `plots` permite visualizar los
+gráficos que se generen; (iii) la pestaña `packages` permite ver 
+los paquetes descargados y guardados en el disco duro así como 
+gestionar su instalación, actualización y carga; (iv) la ventana `help` 
+permite acceder a la documentación de paquetes. La mayoría viene de CRAN (Comprehensive R Archive Network) y en muchos casos es necesario contar con conexión a Internet. CRAN contiene recursos como:
+manuales para el usuario, cursos online, información general, 
+descarga de paquetes, información de los paquetes instalados, etc. 
+Esta última pestaña es bastante útil: empleando el motor de 
+búsqueda se accede de manera rápida a manuales de uso de los 
+diferentes paquetes (y sus funciones) instalados en el computador 
+(esto no requiere conexión a Internet); (v) la ventana `viewer` 
+muestra los resultados al construir reportes mediante 
+archivos tipo Rmarkdown, entre otros.
+
+# 6. Shortcuts 
+
+Los paneles de RStudio mantienen accesible la información importante
+sobre un proyecto en particular. Saber cómo alternar entre paneles sin
+tocar el mouse para mover el cursor, ahorrará tiempo y mejorará el flujo
+de trabajo. 
+
+```{r, eval=TRUE, echo=FALSE, warning=FALSE, fig.align="center",fig.cap = "Shortcuts"}
+library("cowplot")
+library("ggplot2")
+p1 <-  ggdraw() + draw_image("figs/Rstudio6.png", scale = 0.9)
+p1
+```
+
+La figura 10 presenta un amplio conjunto de atajos para poder
+trabajar de forma mas fluida en Rstudio el cual, se puede 
+acceder mediante Tools > Keyboard Shortcuts Help. Algunos de los 
+atajos recomendados para una navegación fluida en Rstudio son:
+
+* Control/Ctrl + 1: Source editor (nuestros scripts)
+* Control/Ctrl + 2: Console
+* Control/Ctrl + 3: Help
+* Control/Ctrl + 4: History
+* Control/Ctrl + 5: Files
+* Control/Ctrl + 6: Plots
+* Control/Ctrl + 7: Packages
+* Control/Ctrl + 8: Environment
+* Control/Ctrl + 9: Viewer
+
+Si se prefiere tener solo un panel a la vista a la vez, agregue `Shift`
+a cualquiera de los comandos anteriores para maximizar el panel. Por 
+ejemplo, si quiere maximizar el panel del editor, basta con utilizar
+Control/Ctrl + shift + 1. Una de las grandes ventajas de conocer los atajos 
+de teclado en  RStudio, es que le ahorrará mucho tiempo al programar.
+
+
+* **Ctrl+l**: La combinación de teclas Ctrl+l permite limpiar de 
+manera completa la consola de comandos en RStudio. 
+* **Ctrl+u**: La combinación de teclas Ctrl+u permite borrar el texto de una linea hasta donde esté el cursor, tanto en los scripts como consola.
+* **Ctrl+o**: La combinación de teclas Ctrl+o permite abrir 
+un determinado archivo almacenado en nuestro sistema para pasar 
+al área de edición del entorno de desarrollo RStudio.
+*  **Ctrl+s**: La combinación de teclas Ctrl+s permite guardar, 
+salvar nuestro código en R del área de edición en el entorno 
+de desarrollo RStudio.
+* **Ctrl+q**: La combinación de teclas Ctrl+q permite salir del 
+entorno de desarrollo RStudio, el propio sistema guarda el área 
+de trabajo antes de cerrar la aplicación.
+* **Ctrl+w**: La combinación de teclas Ctrl+w permite cerrar una 
+pestaña en especifico en el área de edición del entorno de 
+desarrollo RStudio.
+* **Ctrl+shift+w**: La combinación de teclas Ctrl+shift+w permite 
+cerrar todas las pestañas activas en el área de edición del entorno 
+de desarrollo RStudio.
+* **Ctrl+alt+shift+w**: La combinación de teclas Ctrl+alt+shift+w 
+permite cerrar todas las pestañas, dejando sólo la pestaña actualmente seleccionada en el área de edición del entorno 
+de desarrollo RStudio.
+* **Ctrl+alt+s**: La combinación de teclas Ctrl+alt+s permite 
+guardar todas las pestañas activas en las cuales estamos
+trabajando en un momento dado, en el área de edición del entorno 
+de desarrollo RStudio. 
+* **Ctrl+tab**: La combinación de teclasCtrl+tab permite navegar 
+entre pestañadas de izquierda a derecha, este atajo de teclado es 
+de gran utilidad cuando tenemos gran cantidad de pestañas activas 
+en el área de edición del entorno de desarrollo RStudio.
+* **Ctrl+shift+tab**: La combinación de teclas Ctrl+shift+tab permite 
+navegar entre pestañadas de derecha a izquierda, este atajo de teclado 
+es de gran utilidad cuando tenemos gran cantidad de pestañas activas en 
+el área de edición del entorno de desarrollo RStudio.
+* **Ctrl+shift+n**: La combinación de teclas Ctrl+shift+n permite 
+abrir un nuevo script de R.
+* **Ctrl+shift+n**: La combinación de teclas Ctrl+shift+n permite 
+abrir un nuevo script de R. 
+* **Ctrl + Enter** : La combinación de teclas Ctrl + Enter permite ejecutar la 
+línea actual y salta a la siguiente en un script, o ejecuta la parte seleccionada sin saltar más.
+* **Ctrl + Shift + C**:  La combinación de teclas Ctrl + Shift + C permite comentar líneas
+de código.
+* **Ctrl + Shift + R**: La combinación de teclas Ctrl + Shift + R permite agrerar 
+un título a una sección del script en el que uno está trabajando. (`# Titulo -------`)
+* **Ctrl + Shift + A**: La combinación de teclas Ctrl + Shift + A permite reformatear el código de manera estandarizada.
+* **Ctrl + Shift + M**: La combinación de teclas Ctrl + Shift + M insertar el operador
+el operador pipe `%>%`.
+* **Ctrl + Shift + P**: La combinación de teclas Ctrl + Shift + P muestra una paleta de 
+comandos que de despliega. 
+* **Ctrl + Shift + F**: La combinación de teclas Ctrl + Shift + F despliega una ventana para encontrar palabras o patrones dentro de un directorio a elegir (por defecto, el de la carpeta del proyecto entero).
+* **Ctrl + F** La combinación de teclas Ctrl + F permite hacer una búsqueda exhaustiva en el 
+script de palabras o patrones, o simplemente reemplazar carácteres o patrones. 
+* **Ctrl + Alt + B** La combinación de teclas Ctrl + Alt + B permite ejecutar todo el código que está arriba de donde está el cursor. Esto es muy útil para debugear un script simple y correr todo hasta cierto punto.
+* **Ctrl + Alt + R** La combinación de teclas Ctrl + Alt + R ejecuta el script actual entero. 
+* **Ctrl + Z** La combinación de teclas Ctrl + Z permite deshacer lo último que se escribió. 
+* **Ctrl + Shift + Z** La combinación de teclas Ctrl + Shift + Z permite reshacer lo último que se escribió y se deshizo. 
+
+<!--   
+Ctrl + Enter (por completitud de la lista, a pesar de que se mencionó antes)
+Ctrl + Shift + C  
+Ctrl + Shift + R 
+Ctrl + Shift + A 
+Ctrl + Shift + M 
+Ctrl + Shift + P 
+Ctrl + Shift + M (repetido) 
+Ctrl + Shift + F   
+Ctrl + F  
+Ctrl + H (no existe, verificar combinacion en https://keycombiner.com/collections/rstudio/) 
+Ctrl + Alt + B
+Ctrl + Alt + R 
+Ctrl + Z
+Ctrl + Shift + Z
+
+Comentario: Shortcuts agregados, sin embargo hay uno que uno existe y otro repetido. 
+Rodo: 
+- Sí, Ctrl + Shift + M estaba repetido.
+- Ctrl + H no existe. Me equivoqué con el de VSCode (para buscar y reemplazar). En RStudio se hacen los dos con Ctrl + F
+- Cuando escribí Ctrl + Shift + B en verdad quería escribir Ctrl + Alt + B. Lo corregí. 
+
+-->
+
+# 7. Tipos de Datos.
+Un *tipo de dato*, es la propiedad de un valor que determina su dominio,
+es decir, valores que puede tomar. Dependiendo del tipo de dato, se pueden 
+aplicar operaciones. Esta descripción
+es transversal en la mayoria de los lenguajes de programación.  En R existen
+seis tipos de datos fundamentales, los cuales estan tipificadas en la figura 11^[La tabla tiene una pequeña impresión: `numeric` no es un tipo de dato. Debería decir `decimal`, ya que un `numeric` puede ser `integer` o `decimal`].
+
+```{r, eval=TRUE, echo=FALSE, warning=FALSE, fig.align="center",fig.cap = "Tipos de Datos en R"}
+library("cowplot")
+library("ggplot2")
+p1 <-  ggdraw() + draw_image("figs/tipo_datos.png", scale = 0.6)
+p1
+```
+
+De acuerdo a la figura 11, existen dos tipos principales de números en R. 
+Los enteros (integer) y números decimales (numeric o double). Por defecto, 
+R considera todos los números como números decimales y asigna el tipo double.
+Para verificar el tipo de datos utilizaremos la función `typeof()` que toma 
+como argumento un objeto (o directamente la información que queremos probar). 
+También podemos usar la función `is.double()` que devolverá `TRUE` si el 
+número está en formato `double` y `FALSE` en caso contrario. La función 
+genérica `is.numeric()` devolverá `TRUE` si el objeto está en formato 
+`numeric` y `FALSE`  en caso contrario.
+
+```{r, eval=TRUE}
+x <- 5
+typeof(x)
+```
+
+```{r, eval=TRUE}
+typeof(5.32)
+```
+
+```{r, eval=TRUE}
+x <- 5
+typeof(x)
+```
+
+```{r, eval=TRUE}
+is.numeric(5)
+```
+
+```{r, eval=TRUE}
+is.double(5)
+```
+
+El tipo `character` es texto. De hecho, R permite trabajar con texto. 
+Para especificar a R que la información contenida en un objeto está en 
+formato de texto (o generalmente para todos los textos), usamos las 
+comillas dobles (") o las comillas simples (').
+
+```{r, eval=TRUE}
+texto1 <- "Texto Primero"
+typeof(texto1)
+```
+
+El tipo `factor` corresponde a los factores. Los factores son una elección
+dentro de una lista finita de posibilidades. Por ejemplo, los países pueden ser vistos como 
+factores porque existe una lista finita de países en el mundo en un momento 
+dado. Son muy útiles para trabajar con variables categóricas. Un `factor` puede definirse con la función `factor()` o transformarse 
+utilizando la función `as.factor()`. Al igual que con otros tipos de datos, 
+podemos usar la función `is.factor()` para verificar el tipo de datos. Para 
+obtener una lista de todos los posibles valores de un factor (niveles), existe la función `levels()`.
+
+```{r, eval=TRUE}
+factor01 <- factor("zzz")
+print(factor01)
+```
+
+```{r, eval=TRUE}
+typeof(factor01)
+```
+
+```{r, eval=TRUE}
+is.factor(factor01)
+```
+
+```{r, eval=TRUE}
+levels(factor01)
+```
+
+El tipo `logical` corresponde a los valores `TRUE` y `FALSE` que 
+ya hemos visto con los operadores de comparación.
+
+```{r, eval=TRUE}
+Logica <- TRUE
+print(Logica)
+```
+
+```{r, eval=TRUE}
+typeof(Logica)
+```
+
+```{r, eval=TRUE}
+is.logical(Logica)
+```
+A veces podemos obtener valores vacíos (NA). Estos NA tienen su propio tipo de dato. Tenemos un NA numérico, un NA caracter, un NA lógico, etc. Pero todos simbolizan lo mismo: La falta de información para ese campo. 
+
+# 8. Operadores Aritméticos.
+
+```{r, eval=TRUE, echo=FALSE, warning=FALSE, fig.align="center",fig.cap = "Operadores Aritméticos en R"}
+library("cowplot")
+library("ggplot2")
+p1 <-  ggdraw() + draw_image("figs/operadores.png", scale = 0.6)
+p1
+```
+
+```{r, eval=FALSE}
+1 + 2 # suma de dos números 
+5 - 8 # resta de dos números
+2 * 5 # multiplicacion de dos números
+4 / 2 # division de dos números 
+2 ^ 5 # potencia de un número
+451 %% 2 # Modulo de un número en base a otro 
+```
+
+# 8. Vectores, Matrices, Listas y Dataframes.
+
+## 8.1 Vectores
+Los vectores en R, son los objetos más basicos que sen pueden definir. Contiene
+elementos de la misma clase. Estas son algunas de las formas de definir un vector 
+
+1) Simplemente asignando un valor a una variable
+2) `c()` 
+3) `:` 
+4) `vector()` 
+5) `seq()` 
+6) `rep` 
+
+Si escribimos 
+
+```{r, eval=TRUE}
+# combinación
+x <- 1
+print(x)
+```
+
+Obtendremos un vector de largo 1 almacenado en la variable $x$ con el valor 1 como único elemento del vector.
+
+Veamos algunos ejemplos de las otras formas de definir vectores:
+
+```{r, eval=TRUE}
+# combinación
+x <- c(1,2,3,4,5)
+print(x)
+```
+
+```{r, eval=TRUE}
+# Combinación mediante ":"  
+y <- 1:5
+print(y)
+```
+
+```{r, eval=TRUE}
+# Vector (numeric, integer, logical )
+v <- vector("integer", 2)
+print(v)
+```
+
+```{r, eval=TRUE}
+# Secuencias
+z <- seq(5,10)
+print(z)
+```
+
+```{r, eval=TRUE}
+# Secuencias de repeticiones
+w <- rep(2, 10)
+print(w)
+```
+
+
+## 8.2 Matrices
+Una matriz, es un arreglo bidimensional (entradas de filas y columnas). Estas son algunas de las formas de crear una matriz:
+
+```{r, eval=FALSE}
+matrix(data = NA, nrow = 1, ncol = 1, byrow = FALSE, dimnames = NULL)
+```
+
+Donde `nrow` y `ncol` hace referencia a cuantas filas y columnas queremos en 
+nuestra matriz. El argumento `byrow` indica si queremos que se llene por filas 
+(TRUE) o por columnas (FALSE). Por defecto, el llenado es por columnas.  
+
+```{r, eval=TRUE}
+# Matriz x de 2 filas y 5 columnas
+x <- 1:10
+matrix(x,nrow=2,ncol=5)
+```
+
+```{r, eval=TRUE}
+# Matriz desde las filas
+matrix(x,2,5, byrow=T)
+```
+
+
+```{r, eval=TRUE}
+# Asigno a A la matriz creada
+A <- matrix(x,2,5,byrow=T)
+```
+
+
+```{r, eval=TRUE}
+# ¿Qué clase es la matriz A?
+class(A)
+```
+
+Algunos de los atributos que tienen las matrices en R, son las 
+siguientes.
+
+* `dim(x)`: Dimensión de la matriz.
+* `nrow(x)`: Número de filas de matriz.
+* `ncol(x)`: Número de columnas de matriz.
+* `length(x)`: Largo de la matriz ($n\times p$).
+* `mode(x)`: Tipo de datos de los valores de matriz.
+
+Las operaciones algebraicas con matrices en R, son * `+,-,*,\,log(),exp(),sqrt(),...`  y las operaciones matriciales
+son las siguientes.
+
+* `%*%`: Multiplicación matricial. 
+* `t(x)`: Transposición matricial.
+* `solve(x)`: Inversión matricial. 
+* `det(x)`: Cálculo del determinante de una matriz.
+
+```{r, eval=TRUE}
+x <- matrix(1:10,2,5, byrow=T)
+y <- matrix(c(1,0,0,2),2, byrow=T)
+t(x)%*%y
+solve(y)
+det(y)
+```
+Otras funciones útiles para matrices son
+
+* `cbind(x)`:Concatenación de vectores columna (columns).
+* `rbind(x)`:Concatenación de vectores fila (rows).
+
+
+
+## 8.3 Listas
+Una lista, es una colección ordenada de cualquier objeto de `R`. Puede 
+almacenar distintas estructuras de datos. Una función que permite crear una 
+lista es `list()`.
+
+```{r, eval=FALSE}
+# Tipos de Datos
+x <- c(45, 12, 56, 14, 16)
+y <- c("auto", "bicicleta")
+z <- matrix(1:12, ncol = 4)
+```
+
+```{r, eval=FALSE}
+# Crea lista
+mi_lista <- list(x, y, z)
+mi_lista
+```
+
+```{r, eval=FALSE}
+# Accediendo a la lista
+mi_lista[1]
+mi_lista[2]
+mi_lista[3]
+```
+
+```{r, eval=FALSE}
+# Número de elementos de la lista
+length(mi_lista)
+```
+
+## 8.4 Dataframes
+
+Un dataframe, tiene un aspecto semejante a una matriz, con la diferencia que 
+puede almacenar distintos tipos de datos. Un dataframe es un tipo particular de lista. Una función que permite crear un
+dataframe es `data.frame()`. Una particularidad de estos objetos, es 
+que heredan algunos atributos de las matrices como `dim()`, 
+`nrow()`, `ncol()`, `length()`, sin embargo, tienen otros atributos 
+adicionales como  `dimnames()`, `names()`, `colnames()`.
+
+```{r, eval=FALSE}
+# Creando un dataframe
+x1 <- c(100, 99,100,20)
+x2 <- c(20,19,19,10)
+x3 <- c("A","B","C","D")
+data <- data.frame(x1,x2,x3)
+dim(data)
+nrow(data)
+ncol(data)
+length(data)
+dimnames(data)
+names(data) 
+colnames(data)
+```
+
+## 9. Control de flujo y funciones
+
+### 9.1 Estucturas de Control
+
+Las estructuras de control permiten controlar el flujo de ejecución 
+de una secuencia de comandos. Las estructuras de control más 
+utilizadas son:
+
+* `if`, `else` 
+* `for` 
+* `while` 
+* `repeat`
+* `break`
+* `next`
+
+De esta forma, usando operaciones lógicas, se puede lograr reutilizar fragmentos de códigos
+una y otra vez.
+
+#### 9.1.1 Sentencia if-else
+
+La combinación `if-else` es de las más utilizadas en `R`. `if` es usado 
+cuando se desea que una operación se ejecute unicamente cuando 
+una condición se cumple. `else` es usado para indicarle a `R` qué 
+hacer en caso de la condicion `if` previa no se cumpla.  
+
+#### 9.1.2 Sentencia for
+
+En la programación imperativa es habitual construir bucles
+dentro de los cuales se va modificando el valor de una expresión.
+La estructura `for` nos permite ejecutar un bucle o loop, 
+realizando una operación para cada elemento de un conjunto de datos.
+
+#### 9.1.3  Sentencia While
+
+Este es un tipo de bucle que ocurre mientras una 
+condición es verdadera `TRUE`. La operación se realiza 
+hasta que no se cumpla un criterio previamente establecido.
+
+#### 9.1.4 Sentencia Repeat-Break
+
+El bucle `repeat()` permite repetir una operación sin 
+condiciones para verificar. Para salir, usar la palabra 
+clave `break`. En general, no es utilizada para realizar 
+análisis, sino cuando se realiza programación.
+
+#### 9.1.5 Sentencia Next
+`break` y `next` son palabras reservadas en `R`.  * `break` 
+interrumpe un bucle, `next` nos deja avanzar a la siguiente 
+iteración del bucle, “saltándose” la actual.  Ambas funcionan 
+para `for()`, `while()`, `if()` y `repeat()`.
+
+### 9.2 Función Map()
+
+Coge cada elemento de una lista y aplica una función a ese elemento, retornando (por defecto) una lista con cada uno de los resultados asociado a cada elemento de la lista de entrada. Existen sufijos de **map_*()** que permiten obtener el resultado directamente en  otro formato. 
+
+Además, existen funciones análogas (como map2, pmap, invoke, walk, entre otras) que permiten iterar sobre 2 o más listas de objetos, dobre listas de funciones, iterar y ejecutar pasos sin retornar resultados (métodos "void"), entre otras funcionalidades. Todas estas funciones son parte del paquete **purrr**
+
+
+```{r, eval=TRUE, message=FALSE, echo=FALSE}
+library(purrr)
+```
+
+```{r, eval=FALSE}
+map2(lista1, lista2, función(.x, .y))
+```
+
+Si como entrada necesitamos más de dos listas usaremos la función genérica. 
+
+```{r, eval=FALSE}
+pmap(input_list, funcion)
+```
+
+```{r, eval=TRUE}
+x <- c(1, 2, 4)
+y <- c(6, 5, 3)
+pmap_dbl(list(x, y), min)
+```
+
+### 9.3 Sentencia pmap()
+  
+`pmap` es una versión generalizada de `map2`  
+
+
+### 9.4 Funciones
+
+Una función, es un conjunto de instrucciones que convierten
+las entradas (inputs) en resultados (outputs) deseados. Algunas 
+partes de una funcion son:
+
+    * `Entradas o argumentos`.
+    * `Cuerpo`.
+    * `Salida`.
+
+```{r, eval=FALSE}
+# Ejemplo 1 
+texto <- function(){ 
+  return("Hola curso") }
+
+# Ejemplo 2 
+cuadrado <- function(x){
+  return(x^2)
+}
+
+# Ejemplo 3 
+xln <- function(x){
+  if (x == 0) { 
+  return(0) 
+  } else 
+    { return(-x * log(x)) } 
+}
+```
+

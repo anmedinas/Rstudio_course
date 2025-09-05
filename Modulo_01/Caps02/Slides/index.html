@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Programación en R.</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Programación en R.">
+  <meta name="author" content="">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/github.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="libraries/widgets/quiz/css/demo.css"></link>
+<link rel=stylesheet href="libraries/widgets/bootstrap/css/bootstrap.css"></link>
+<link rel=stylesheet href="libraries/widgets/interactive/css/aceeditor.css"></link>
+<link rel=stylesheet href="libraries/widgets/nvd3/css/nv.d3.css"></link>
+<link rel=stylesheet href="libraries/widgets/nvd3/css/rNVD3.css"></link>
+<link rel=stylesheet href="libraries/widgets/leaflet/external/leaflet.css"></link>
+<link rel=stylesheet href="libraries/widgets/leaflet/external/leaflet-rCharts.css"></link>
+<link rel=stylesheet href="libraries/widgets/leaflet/external/legend.css"></link>
+<link rel=stylesheet href="./assets/css/ribbons.css"></link>
+<link rel=stylesheet href="./assets/css/style.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  <script src="libraries/widgets/nvd3/js/jquery-1.8.2.min.js"></script>
+<script src="libraries/widgets/nvd3/js/d3.v3.min.js"></script>
+<script src="libraries/widgets/nvd3/js/nv.d3.min-new.js"></script>
+<script src="libraries/widgets/nvd3/js/fisheye.js"></script>
+<script src="libraries/widgets/leaflet/external/leaflet.js"></script>
+<script src="libraries/widgets/leaflet/external/leaflet-providers.js"></script>
+<script src="libraries/widgets/leaflet/external/Control.FullScreen.js"></script>
+
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+    
+  <slide class="nobackground">
+    <article class="flexbox vcenter">
+      <span>
+        <img width='300px' src="assets/img/Rlogo.png">
+      </span>
+    </article>
+  </slide>
+    <slide class="title-slide segue nobackground">
+  
+  <hgroup class="auto-fadein">
+    <h1>Programación en R.</h1>
+    <h2>Módulo 01 - Tipos de datos y estructuras de datos básicos.</h2>
+    <p><br/></p>
+  </hgroup>
+  
+  <article></article>  
+  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="class" id="id" style="background:;">
+  
+  <article data-timings="">
+    <style type="text/css">
+body {background:grey transparent;
+}
+</style>
+
+<!-- Slide 01 -->
+
+<h2>Agenda del Curso</h2>
+
+<ul class = "build incremental">
+<li><p><strong>Módulo 1: Introducción a la programación en R.</strong></p>
+
+<ol>
+<ul style="list-style-type:square">
+<li> Ambiente de programación. </li>
+<li> Tipos de datos y estructuras de datos básicos. </li>
+<li> Control de flujo y funciones. </li>
+</ul>
+</ol> </li>
+<li><p><strong>Módulo 2: Manejo de datos estructurados.</strong></p>
+
+<ol>
+<ul style="list-style-type:square">
+<li> Operaciones sobre dataframes. </li>
+<li> Joins y funciones estadísticas. </li>
+</ul>
+</ol> </li>
+<li><p><strong>Módulo 3: Importar y exportar archivos de datos.</strong></p>
+
+<ol>
+<ul style="list-style-type:square">
+<li> Importar y exportar archivos de datos. </li>
+<li> Conexión a bases de datos SQL. </li>
+</ul>
+</ol> </li>
+<li><p><strong>Módulo 4: Visualización de datos.</strong></p>
+
+<ol>
+<ul style="list-style-type:square">
+<li> Librería ggplot2 y elementos estéticos de gráficos. </li>
+</ul>
+</ol> </li>
+</ul>
+
+<!-- Slide 02 -->
+
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="segue" id="slide-2" style="background:grey;">
+  
+  <hgroup>
+    <h1>Módulo 1: Tipos de datos y estructuras de datos básicos</h1>
+  </hgroup>
+  
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 03 -->
+
+<h2>Tipos de Datos.</h2>
+
+<p><code>R</code> es capaz de manejar una variedad de tipos de datos que se almacenan en diferentes estructuras.</p>
+
+<p><img class="center" width=600px height=600px src="assets/img/tipo_datos.png"></img></p>
+
+<div style='float:left;width:48%;' class='centered'>
+  
+</div>
+<div style='float:right;width:48%;'>
+  
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 04 -->
+
+<h2>Operaciones Básicas</h2>
+
+<div style='float:left;width:48%;' class='centered'>
+  <ul class = "build incremental">
+<li>Suma de dos números.</li>
+</ul>
+
+<pre><code class="r">1 + 2
+</code></pre>
+
+<ul class = "build incremental">
+<li>Resta de dos números.</li>
+</ul>
+
+<pre><code class="r">5 - 8
+</code></pre>
+
+<ul class = "build incremental">
+<li>Multiplicación de dos números.</li>
+</ul>
+
+<pre><code class="r">2 * 5
+</code></pre>
+
+<ul class = "build incremental">
+<li>División de dos números.</li>
+</ul>
+
+<pre><code class="r">4 / 2
+</code></pre>
+
+<p><span class="footnote"> Código: <a href="">M1_C2_script01.R</a> </span></p>
+
+</div>
+<div style='float:right;width:48%;'>
+  <ul class = "build incremental">
+<li>Asignar valor a una variable \(x\) e imprime el valor.</li>
+</ul>
+
+<pre><code class="r">x &lt;- 25
+print(x)
+</code></pre>
+
+<ul class = "build incremental">
+<li>Multiplicamos un número por \(x\) y lo guardamos en \(y\).</li>
+</ul>
+
+<pre><code class="r">y &lt;- 2*x
+print(y)
+</code></pre>
+
+<ul class = "build incremental">
+<li>¿Qué tipo de dato es la variable \(x\) ?</li>
+</ul>
+
+<pre><code class="r">class(x)
+</code></pre>
+
+<!-- Slide 05 -->
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="segue" id="slide-5" style="background:grey;">
+  
+  <hgroup>
+    <h1>Vectores, Matrices, listas y Dataframes</h1>
+  </hgroup>
+  
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-6" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 06 -->
+
+<h2>Vectores, Matrices, listas y Dataframes</h2>
+
+<p><img class="center" width=600px height=600px src="assets/img/dataStructuresNew.png"></img></p>
+
+<ul class = "build incremental">
+<li><p><code>vector</code> es una estructura unidimensional.</p></li>
+<li><p><code>matriz</code> es una estructura bidimensional.</p></li>
+<li><p><code>lista</code> es una colección de elementos que pueden ser de diferente tipo.</p></li>
+<li><p><code>Dataframes</code> es una estructura de datos bidimensional similar a una matriz,
+con la diferencia que tipo de datos mixtos (<code>numeric()</code>, <code>logic()</code>,
+<code>character()</code>, etc).</p></li>
+</ul>
+
+<div style='float:left;width:48%;' class='centered'>
+  
+</div>
+<div style='float:right;width:48%;'>
+  
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-7" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 07 -->
+
+<h2>Vectores</h2>
+
+<p>En <code>R</code>, existen diversas formas de construir un vector, entre ellas:</p>
+
+<div style='float:left;width:48%;' class='centered'>
+  <ul class = "build incremental">
+<li><code>c()</code> ó <code>:</code></li>
+<li><code>vector()</code></li>
+<li><code>seq()</code></li>
+<li><code>rep()</code></li>
+<li><strong>Observación:</strong> Las funciones anteriores,
+aplica para cualquier tipo de dato.</li>
+</ul>
+
+<p><img class="center" width=600px height=600px src="assets/img/tipos_datos2.png"></img></p>
+
+<ul class = "build incremental">
+<li>Los ejemplos de cada función, se encuentran en:</li>
+</ul>
+
+<p><span class="footnote"> Código: <a href="">M1_C2_script02.R</a> </span></p>
+
+</div>
+<div style='float:right;width:48%;'>
+  <pre><code class="r"># Combinación
+x &lt;- c(1,2,3,4,5)
+</code></pre>
+
+<pre><code class="r"># Combinación mediante &quot;:&quot;  
+y &lt;- 1:5
+</code></pre>
+
+<pre><code class="r"># Vector (numeric, integer, logical )
+v &lt;- vector(&quot;integer&quot;, 2)
+</code></pre>
+
+<pre><code class="r"># Secuencias
+z &lt;- seq(5,10)
+</code></pre>
+
+<pre><code class="r"># Secuencias de repeticiones
+w &lt;- rep(2, 10)
+</code></pre>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-8" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 08 -->
+
+<h2>Matrices</h2>
+
+<div style='float:left;width:48%;' class='centered'>
+  <ul class = "build incremental">
+<li>Una matriz es un arreglo bidimensional.</li>
+<li>Una forma de crear una matriz es generando un vector y 
+aplicar la función <code>matrix()</code>. </li>
+</ul>
+
+<pre><code class="r">matrix(data = NA, nrow = 1, ncol = 1, 
+          byrow = FALSE, dimnames = NULL)
+</code></pre>
+
+<ul class = "build incremental">
+<li>Tanto en <code>S-Plus</code> como en <code>R</code>, la matriz se llena por 
+columna.</li>
+<li>Para llenar una matriz por filas, se usa el parametro <code>byrow=T</code>.</li>
+<li>Los ejemplos de cada función, se encuentran en:</li>
+</ul>
+
+<p><span class="footnote"> Código: <a href="">M1_C2_script03.R</a> </span></p>
+
+</div>
+<div style='float:right;width:48%;'>
+  <pre><code class="r"># Matriz x de 2 filas y 5 columnas
+x &lt;- 1:10
+matrix(x,nrow=2,ncol=5)
+</code></pre>
+
+<pre><code class="r"># Matriz desde las filas
+matrix(x,2,5, byrow=T)
+</code></pre>
+
+<pre><code class="r"># Asigno a A la matriz creada
+A &lt;- matrix(x,2,5,byrow=T)
+</code></pre>
+
+<pre><code class="r"># ¿Qué clase es la matriz A?
+A &lt;- matrix(x,2,5,byrow=T)
+</code></pre>
+
+<pre><code class="r"># ¿Dimensión de A?
+dim(A) 
+</code></pre>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-9" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 09 -->
+
+<h2>Matrices</h2>
+
+<div style='float:left;width:48%;' class='centered'>
+  <p><strong>Atributos</strong></p>
+
+<ul class = "build incremental">
+<li><code>dim(x):</code> Dimensión de la matriz.</li>
+<li><code>nrow(x):</code> Número de filas de matriz.<br></li>
+<li><code>ncol(x):</code> Número de columnas de matriz.</li>
+<li><code>length(x):</code> Largo de la matriz (\(n\times p\)).</li>
+<li><code>mode(x):</code> Formato del objeto.</li>
+<li><code>cbind(x):</code> Concatena vectores columnas.</li>
+<li><code>rbind(x):</code> Concatena vectores filas.</li>
+<li>Los ejemplos de cada función, se encuentran en:</li>
+</ul>
+
+<p><span class="footnote"> Código: <a href="">M1_C2_script03.R</a> </span></p>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p><strong>Operaciones Algébraicas</strong></p>
+
+<ul class = "build incremental">
+<li><code>+,-,*,\,log(),exp(),sqrt(),...</code><br></li>
+</ul>
+
+<p><strong>Operaciones Matriciales</strong></p>
+
+<ul class = "build incremental">
+<li><code>%*%  :</code> Multiplicación matricial. </li>
+<li><code>t(x) :</code> Matriz traspuesta.</li>
+<li><code>solve(x):</code> Matriz inversa. </li>
+<li><code>det(x) :</code> Determinante de una matriz.</li>
+</ul>
+
+<pre><code class="r">x &lt;- matrix(1:10,2,5, byrow=T)
+y &lt;- matrix(c(1,0,0,2),2, byrow=T)
+t(x)%*%y
+solve(y)
+det(y)
+</code></pre>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-10" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 10 -->
+
+<h2>Listas</h2>
+
+<div style='float:left;width:48%;' class='centered'>
+  <ul class = "build incremental">
+<li>Una lista, es una coleccion ordenada de cualquier objeto de <code>R</code>.</li>
+<li>Puede almacenar distintas estructuras de datos.</li>
+<li>La funcion que permite crear una lista es <code>list()</code>.</li>
+<li>¿Qué se pueden hacer con las listas?:
+
+<ul>
+<li>Crear, añadir, quitar, unir, comparar listas,
+convertir (a vector o dataframe), anidar listas,
+etc.</li>
+</ul></li>
+<li>Los ejemplos de cada función, se encuentran en:</li>
+</ul>
+
+<p><span class="footnote"> Código: <a href="">M1_C2_script04.R</a> </span></p>
+
+</div>
+<div style='float:right;width:48%;'>
+  <pre><code class="r"># Tipos de Datos
+x &lt;- c(45, 12, 56, 14, 16)
+y &lt;- c(&quot;auto&quot;, &quot;bicicleta&quot;)
+z &lt;- matrix(1:12, ncol = 4)
+</code></pre>
+
+<pre><code class="r"># Crea lista
+mi_lista &lt;- list(x, y, z)
+mi_lista
+</code></pre>
+
+<pre><code class="r"># Accediendo a la lista
+mi_lista[1]
+mi_lista[2]
+mi_lista[3]
+</code></pre>
+
+<pre><code class="r"># Número de elementos de la lista
+length(mi_lista)
+</code></pre>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-11" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 10 -->
+
+<h2>Dataframes</h2>
+
+<div style='float:left;width:48%;' class='centered'>
+  <ul class = "build incremental">
+<li>Un dataframe, tiene un aspecto semejante a una 
+matriz, con la diferencia que puede almacenar distintos
+tipos de datos.</li>
+<li>La función que permite crear dataframes es <code>data.frame()</code>.</li>
+<li>Los dataframes también heredan algunos atributos de las matrices
+como  <code>dim()</code>, <code>nrow()</code>, <code>ncol()</code>, <code>length()</code>.</li>
+<li>Aparecen otros atributos como  <code>dimnames()</code>, <code>names()</code> o <code>colnames()</code>.</li>
+<li>Los ejemplos de cada función, se encuentran en:</li>
+</ul>
+
+<p><span class="footnote"> Código: <a href="">M1_C2_script05.R</a> </span></p>
+
+</div>
+<div style='float:right;width:48%;'>
+  <pre><code class="r"># Creando un dataframe
+x1 &lt;- c(100, 99,100,20)
+x2 &lt;- c(20,19,19,10)
+x3 &lt;- c(&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;D&quot;)
+data &lt;- data.frame(x1,x2,x3)
+print(data)
+</code></pre>
+
+<pre><code class="r"># Atributos de dataframe
+dim(data)
+nrow(data)
+ncol(data)
+length(data)
+dimnames(data)
+names(data) 
+colnames(data)
+</code></pre>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='NA'>
+         1
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Módulo 1: Tipos de datos y estructuras de datos básicos'>
+         2
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='NA'>
+         3
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='NA'>
+         4
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='Vectores, Matrices, listas y Dataframes'>
+         5
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=6 title='NA'>
+         6
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=7 title='NA'>
+         7
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=8 title='NA'>
+         8
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=9 title='NA'>
+         9
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=10 title='NA'>
+         10
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=11 title='NA'>
+         11
+      </a>
+    </li>
+    
+    </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  <script src="libraries/widgets/quiz/js/jquery.quiz.js"></script>
+<script src="libraries/widgets/quiz/js/mustache.min.js"></script>
+<script src="libraries/widgets/quiz/js/quiz-app.js"></script>
+<script src="libraries/widgets/bootstrap/js/bootstrap.min.js"></script>
+<script src="libraries/widgets/bootstrap/js/bootbox.min.js"></script>
+<script src="libraries/widgets/interactive/js/ace/js/ace.js"></script>
+<script src="libraries/widgets/interactive/js/interactive.js"></script>
+
+  <!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script> -->
+  
+<script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="libraries/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+
+  
+  <script>  
+  $(function (){ 
+    $("#example").popover(); 
+    $("[rel='tooltip']").tooltip(); 
+  });  
+  </script>  
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>

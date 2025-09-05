@@ -1,0 +1,14 @@
+# Tutorial de Git.
+
+https://www.youtube.com/watch?v=0QpBlMBDR68&list=PLfYElkGZxzgb93uFgXw-mcCPvIYz4EFF6&index=8
+
+# Tips de Dataframes 
+https://bookdown.org/jboscomendoza/r-principiantes4/data-frames.html
+
+# dplyr 
+https://mauricioanderson.com/curso-r-dplyr/
+https://swcarpentry.github.io/r-novice-gapminder-es/13-dplyr/
+https://rstudio-pubs-static.s3.amazonaws.com/625847_38c563931b374b1d85a2197d7c9d7dd4.html
+
+# Tutorial Filter
+https://suzan.rbind.io/2018/02/dplyr-tutorial-3/

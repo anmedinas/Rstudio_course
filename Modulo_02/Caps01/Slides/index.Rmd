@@ -1,0 +1,394 @@
+---
+title       : Programación en R.
+subtitle    : Módulo 02 - Manejo de datos estructurados.
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : github      # tomorrow
+widgets     : [mathjax, quiz, bootstrap, interactive] # {mathjax, quiz, bootstrap}
+ext_widgets : {rCharts: [libraries/nvd3, libraries/leaflet, libraries/dygraphs]}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+logo        : 
+biglogo     : Rlogo.png
+assets      : {assets: ../../assets}
+--- .class #id
+
+<style type="text/css">
+body {background:grey transparent;
+}
+</style>
+
+
+<!-- Slide 01 -->
+
+## Agenda del Curso
+> * **Módulo 1: Introducción a la programación en R.**
+  <ol>
+    <ul style="list-style-type:square">
+    <li> Ambiente de programación. </li>
+    <li> Tipos de datos y estructuras de datos básicos. </li>
+    <li> Control de flujo y funciones. </li>
+    </ul>
+  </ol> 
+
+> * **Módulo 2: Manejo de datos estructurados.**
+  <ol>
+    <ul style="list-style-type:square">
+    <li> Operaciones sobre dataframes. </li>
+    <li> Joins y funciones estadísticas. </li>
+    </ul>
+  </ol> 
+
+> * **Módulo 3: Importar y exportar archivos de datos.**
+  <ol>
+    <ul style="list-style-type:square">
+    <li> Importar y exportar archivos de datos. </li>
+    <li> Conexión a bases de datos SQL. </li>
+    </ul>
+  </ol> 
+
+> * **Módulo 4: Visualización de datos.**
+ <ol>
+    <ul style="list-style-type:square">
+    <li> Librería ggplot2 y elementos estéticos de gráficos. </li>
+    </ul>
+  </ol> 
+
+
+<!-- Slide 02 -->
+
+--- .segue bg:grey
+
+# Módulo 2: Manejo de datos estructurados.
+
+--- &twocol
+
+<!-- Slide 03 -->
+## Dataframes
+*** =left
+
+> * Los `dataframes` son estructuras de datos de dos 
+dimensiones (rectangulares) que pueden contener datos 
+de diferentes tipos, por lo tanto, son heterogéneos.
+
+> * Podemos entender a los data frames como una versión más flexible de una matriz.
+
+> * Las filas en un `dataframe` representan casos, individuos 
+u observaciones, mientras que las columnas representan atributos, rasgos o variables.
+
+*** =right
+
+```{r, eval=FALSE, echo=TRUE}
+data(iris)
+head(iris)
+```
+
+<img class="center" width=1500px height=1500px src="assets/img/head.png"></img>
+
+* `dataframes` se conforman mediante vectores.
+
+```{r, eval=FALSE, echo=TRUE}
+mi_df <- data.frame(
+  "entero" = 1:3, 
+  "factor" = as.factor(c("a", "b", "c")), 
+  "numero" = c(1.2, 3.4, 4.5),
+  "cadena" = c("a", "b", "c")
+)
+```
+
+*** =fullwidth
+
+--- &twocol
+
+<!-- Slide 03 -->
+## dplyr
+*** =left
+
+* El paquete `dplyr` fue desarrollado por Hadley Wickham (RStudio) como una optimización del paquete `plyr`. 
+
+> El paquete está escrito en `C++`. Las funciones que provee permiten hacer operaciones más rápido que su equivalente del paquete base.
+
+* La instalación es sencilla. 
+
+ ```{r, echo=TRUE, eval=FALSE}
+ install.packages("dplyr", dep=TRUE)
+ ```
+
+* Para cargar la librería, usar:
+ ```{r, eval=TRUE, echo=TRUE, message=FALSE}
+ library("dplyr")
+ ```
+
+*** =right
+
+`funciones`
+  
+  * `select()`: selecccionar
+  * `filter()`: filtrar
+  * `arrange()`: ordenar
+  * `rename()`: renombrar
+  * `mutate()`: mutar
+  * `summarise()`: resumir
+
+```{r, eval=FALSE, echo=TRUE}
+dplyr::select()
+dplyr::filter()
+dplyr::arrange()
+dplyr::rename()
+dplyr::mutate()
+dplyr::summarise()
+```
+
+*** =fullwidth
+
+
+
+
+--- &twocol
+
+<!-- Slide 03 -->
+## select()
+*** =left
+
+*  La función `select()` es usada para seleccionar 
+columnas de un `dataframe` que queremos extraer.
+
+* Estas son dos formas de utilizar esta función: <!-- Podria haber mas formas, como agregar esto a una funcion y generalizar un proceso, etc. Asi que cambié un poco la redacción -->
+  
+ ```{r, echo=TRUE, eval=FALSE}
+ # Opcion 1
+ mtcars %>% select(1,2)
+ # Opcion 2
+ select(mtcars,1,2)
+ ```
+
+* Operador `%>%` (`pipe`) 
+
+* Los ejemplos descritos, se encuentran en:
+
+  <span class="footnote"> Código: [M2_C1_script01.R]() </span>
+
+
+*** =right
+`Ejemplo 1`
+```{r, eval=TRUE, echo=TRUE}
+# Opcion 1 
+mtcars %>% select(1,2) %>% head(3)
+```
+
+```{r, eval=TRUE, echo=TRUE}
+# Opcion 2
+select(mtcars,1,2) %>% head(3)
+```
+
+
+*** =fullwidth
+
+
+--- &twocol
+
+<!-- Slide 03 -->
+## select()
+*** =left
+
+* Otras funcionalidades:
+
+  * `-`     
+  * `:`
+  * `starts_with`
+  * `ends_with`
+  * `contains`
+  * `matches`
+  * `everything`
+  * `one_of`
+  
+
+* Los ejemplos descritos, se encuentran en:
+
+  <span class="footnote"> Código: [M2_C1_script01.R]() </span>
+
+
+*** =right
+`Ejemplo 2`
+```{r, eval=TRUE, echo=TRUE}
+mtcars %>% select(-c("drat","wt","qsec",
+"vs","am","gear","carb")) %>% head(3)
+```
+
+```{r, eval=TRUE, echo=TRUE}
+mtcars %>% select(1:4) %>% head(3)
+```
+
+
+*** =fullwidth
+
+--- &twocol
+
+<!-- Slide 03 -->
+## filter()
+*** =left
+
+* La función `filter()` filtra las filas y deja solo las que cumplen una condición dada. <!-- Lo que decía antes, en verdad no decía nada -->
+
+* Algunas funcionalidades.
+  * `near`, `between`, `%in%`  
+  * `str_detect`
+  * `filter_all()`
+  * `filter_if()`
+  * `filter_at()`    
+  
+* Los ejemplos descritos, se encuentran en:
+
+  <span class="footnote"> Código: [M2_C1_script02.R]() </span>
+
+*** =right
+`Ejemplo 3`
+```{r, eval=TRUE, echo=TRUE}
+msleep %>% 
+  select(name, sleep_total) %>% 
+  filter(sleep_total > 18) 
+```
+
+> Operadores: `>`, `>=`, `<`, `<=`, `==`, `!=`
+
+*** =fullwidth
+
+--- &twocol
+
+<!-- Slide 03 -->
+## arrange()
+*** =left
+
+* La función `arrange()` es usada para reordenar las filas de un data frame según una o más columnas. 
+
+* Por defecto `arrange()` ordena las filas en orden ascendente.
+
+ ```{r, eval=FALSE, echo=TRUE}
+ # Opcion ascendente
+ arrange(iris, Species)
+ # Opcion descendente
+ arrange(iris, desc(Species))
+ ```
+* Los ejemplos descritos, se encuentran en:
+
+  <span class="footnote"> Código: [M2_C1_script03.R]() </span>
+
+
+*** =right
+
+`Ejemplo 4`
+
+```{r, eval=TRUE, echo=TRUE}
+iris %>% select(Species, Sepal.Length) %>%
+  filter(Species == "setosa") %>%
+  arrange(Sepal.Length) %>% head(5)
+```
+
+*** =fullwidth
+
+
+--- &twocol
+
+<!-- Slide 03 -->
+## rename()
+*** =left
+* La función `rename()` permite modificar el nombre de una o más columnas, conservando el resto.
+
+* La función `select()` permite realizar también 
+una modificación en los nombre de las columnas, pero 
+en ese caso solo se conservan las columnas seleccionadas.
+
+* Los ejemplos descritos, se encuentran en:
+
+  <span class="footnote"> Código: [M2_C1_script04.R]() </span>
+
+*** =right
+`Ejemplo 5`
+
+```{r, eval=TRUE, echo=TRUE}
+iris %>% select(Species, Sepal.Length, 
+                  Sepal.Width) %>%
+  filter(Species == "setosa") %>%
+  rename(Tipo=Species, Largo=Sepal.Length, 
+              Ancho=Sepal.Width) %>%
+  arrange(desc(Largo)) %>% head(5)
+```
+
+*** =fullwidth
+
+
+
+--- &twocol
+
+<!-- Slide 03 -->
+## mutate()
+*** =left
+
+* Para crear una nueva variable a partir del dataframe original 
+podemos utilizar las funciones `mutate()` y `transmute()`.
+
+* `mutate()` creará una nueva columna con el resultado deseado que se añadirá al dataframe.
+  
+* `transmute()` devuelve únicamente las columnas mencionadas en transmute. Además, se puede seleccionar columnas y modificar el nombre de las columnas, todo en una sola función.
+        
+* Los ejemplos descritos, se encuentran en:
+
+  <span class="footnote"> Código: [M2_C1_script05.R]() </span>
+
+*** =right
+
+`Ejemplo 6`
+```{r, eval=TRUE, echo=TRUE}
+iris %>% 
+    select(Species, Sepal.Length)%>%
+    mutate(Sepal2 = Sepal.Length^2)%>%
+    head(1)
+
+```
+
+```{r, eval=TRUE, echo=TRUE}
+iris %>% 
+    transmute(Species, Sepal2 = Sepal.Length^2) %>%
+    head(1)
+```
+
+*** =fullwidth
+
+
+--- &twocol
+
+<!-- Slide 03 -->
+## summarise()
+*** =left
+
+* La función `group_by` es usada para agrupar datos 
+según una variable. 
+
+* Una vez con los datos agrupados podemos usar `summarize` para 
+resumir estos utilizando función de agrupación `group_by`. 
+
+ ```{r, eval=FALSE, echo=TRUE}
+ mtcars %>% 
+  select(mpg, hp, cyl, wt) %>% 
+  filter(cyl != 4 & wt > 3.000) %>% 
+  group_by(cyl) %>% 
+  summarize(mean(hp), mean(mpg))
+ ```      
+* Los ejemplos descritos, se encuentran en:
+
+  <span class="footnote"> Código: [M2_C1_script06.R]() </span>
+
+*** =right
+`Ejemplo 7`
+
+```{r, eval=TRUE, echo=TRUE}
+ mtcars %>% 
+  select(mpg, hp, cyl, wt) %>% 
+  filter(cyl != 4 & wt > 3.000) %>% 
+  group_by(cyl) %>% 
+  summarize(mean(hp), mean(mpg)) %>% #Dentro del summarise se puede crear la variable Prom_hp=mean(hp), Prom_mpg=mean(mpg)
+  rename(Prom_hp =`mean(hp)`,
+         Prom_mpg = `mean(mpg)`)
+```  
+
+

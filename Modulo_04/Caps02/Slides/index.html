@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Programación en R.</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Programación en R.">
+  <meta name="author" content="">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/github.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="libraries/widgets/quiz/css/demo.css"></link>
+<link rel=stylesheet href="libraries/widgets/bootstrap/css/bootstrap.css"></link>
+<link rel=stylesheet href="libraries/widgets/interactive/css/aceeditor.css"></link>
+<link rel=stylesheet href="libraries/widgets/nvd3/css/nv.d3.css"></link>
+<link rel=stylesheet href="libraries/widgets/nvd3/css/rNVD3.css"></link>
+<link rel=stylesheet href="libraries/widgets/leaflet/external/leaflet.css"></link>
+<link rel=stylesheet href="libraries/widgets/leaflet/external/leaflet-rCharts.css"></link>
+<link rel=stylesheet href="libraries/widgets/leaflet/external/legend.css"></link>
+<link rel=stylesheet href="./assets/css/ribbons.css"></link>
+<link rel=stylesheet href="./assets/css/style.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  <script src="libraries/widgets/nvd3/js/jquery-1.8.2.min.js"></script>
+<script src="libraries/widgets/nvd3/js/d3.v3.min.js"></script>
+<script src="libraries/widgets/nvd3/js/nv.d3.min-new.js"></script>
+<script src="libraries/widgets/nvd3/js/fisheye.js"></script>
+<script src="libraries/widgets/leaflet/external/leaflet.js"></script>
+<script src="libraries/widgets/leaflet/external/leaflet-providers.js"></script>
+<script src="libraries/widgets/leaflet/external/Control.FullScreen.js"></script>
+
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+    
+  <slide class="nobackground">
+    <article class="flexbox vcenter">
+      <span>
+        <img width='300px' src="assets/img/Rlogo.png">
+      </span>
+    </article>
+  </slide>
+    <slide class="title-slide segue nobackground">
+  
+  <hgroup class="auto-fadein">
+    <h1>Programación en R.</h1>
+    <h2>Módulo 04 - Visualización de datos.</h2>
+    <p><br/></p>
+  </hgroup>
+  
+  <article></article>  
+  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="class" id="id" style="background:;">
+  
+  <article data-timings="">
+    <style type="text/css">
+body {background:grey transparent;
+}
+</style>
+
+<!-- Slide 01 -->
+
+<h2>Agenda del Curso</h2>
+
+<ul class = "build incremental">
+<li><p><strong>Módulo 1: Introducción a la programación en R.</strong></p>
+
+<ol>
+<ul style="list-style-type:square">
+<li> Ambiente de programación. </li>
+<li> Tipos de datos y estructuras de datos básicos. </li>
+<li> Control de flujo y funciones. </li>
+</ul>
+</ol> </li>
+<li><p><strong>Módulo 2: Manejo de datos estructurados.</strong></p>
+
+<ol>
+<ul style="list-style-type:square">
+<li> Operaciones sobre dataframes. </li>
+<li> Joins y funciones estadísticas. </li>
+</ul>
+</ol> </li>
+<li><p><strong>Módulo 3: Importar y exportar archivos de datos.</strong></p>
+
+<ol>
+<ul style="list-style-type:square">
+<li> Importar y exportar archivos de datos. </li>
+<li> Conexión a bases de datos SQL. </li>
+</ul>
+</ol> </li>
+<li><p><strong>Módulo 4: Visualización de datos.</strong></p>
+
+<ol>
+<ul style="list-style-type:square">
+<li> Librería ggplot2 y elementos estéticos de gráficos. </li>
+</ul>
+</ol> </li>
+</ul>
+
+<!-- Slide 02 -->
+
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="segue" id="slide-2" style="background:grey;">
+  
+  <hgroup>
+    <h1>Módulo 4: Visualización de datos.</h1>
+  </hgroup>
+  
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 03 -->
+
+<h2>Capas</h2>
+
+<div style='float:left;width:48%;' class='centered'>
+  <ul>
+<li><p>Las visualizaciones de <code>ggplot</code> se construyen paso a paso agregando nuevos
+elementos, uno encima de otro, usando el operador <code>+</code>. </p></li>
+<li><p>Estos nuevos elementos, son denominadas <code>capas</code>.</p>
+
+<ul>
+<li><code>Data</code> &amp; <code>aesthetics.</code></li>
+<li><code>Geometries.</code></li>
+<li><code>Facets.</code></li>
+<li><code>Statistics.</code></li>
+<li><code>Coordinates.</code></li>
+<li><code>Theme.</code><br></li>
+</ul></li>
+</ul>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p><img class="center" width=1000px height=1000px src="assets/img/ggplot04.png"></img></p>
+
+<p>Para utilizar esta librería, basta con cargarla como:</p>
+
+<pre><code class="r">library(&quot;ggplot2&quot;)
+</code></pre>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 03 -->
+
+<h2>Facets</h2>
+
+<div style='float:left;width:48%;' class='centered'>
+  <ul>
+<li><p>Las facetas o <code>Facets</code> es un enfoque que divide una trama
+en una matriz de paneles. Cada panel muestra un subconjunto 
+diferente de los datos.</p></li>
+<li><p>En <code>ggplot2</code>, las facetas se dividen en:</p>
+
+<ul>
+<li><code>facet_grid()</code></li>
+<li><code>facet_wrap()</code></li>
+</ul></li>
+<li><p>En gráficos de una sola variable, no existe una diferencia
+entre usar <code>facet_grid()</code> ó <code>facet_wrap()</code>.</p></li>
+<li><p>Los ejemplos descritos, se encuentran en:</p>
+
+<p><span class="footnote"> Código: <a href="">M4_C2_script01.R</a> </span></p></li>
+</ul>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p><code>Ejemplo 1</code></p>
+
+<pre><code class="r">ggplot(data = mpg, aes(x = displ, 
+  y = hwy)) + geom_point() + 
+  facet_wrap(~cyl)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-3-1.png" alt="plot of chunk unnamed-chunk-3"></p>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-5" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 03 -->
+
+<h2>facet_wrap()</h2>
+
+<div style='float:left;width:48%;' class='centered'>
+  <p><code>Ejemplo 2</code></p>
+
+<pre><code class="r">ggplot(data = mpg, aes(x = displ, y = hwy)) + 
+  geom_point(size = 2, alpha = 0.5) + 
+  facet_wrap(~cyl)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-4-1.png" alt="plot of chunk unnamed-chunk-4"></p>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p><code>Ejemplo 3</code></p>
+
+<pre><code class="r">ggplot(data = mpg, aes(x = displ, y = hwy, 
+  color = drv)) + geom_point(size = 2, 
+  alpha = 0.5) + facet_wrap(~cyl)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-5-1.png" alt="plot of chunk unnamed-chunk-5"></p>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-6" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 03 -->
+
+<h2>facet_grid()</h2>
+
+<div style='float:left;width:48%;' class='centered'>
+  <p><code>Ejemplo 4</code></p>
+
+<pre><code class="r">ggplot(ToothGrowth, aes(x=dose, y=len, 
+group=factor(dose))) + 
+geom_boxplot(aes(fill=factor(dose))) +
+facet_grid(supp ~ .)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-7-1.png" alt="plot of chunk unnamed-chunk-7"></p>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p><code>Ejemplo 5</code></p>
+
+<pre><code class="r">ggplot(ToothGrowth, aes(x=dose, y=len, 
+group=factor(dose))) +
+geom_boxplot(aes(fill=factor(dose))) + 
+facet_grid(.~supp)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-8-1.png" alt="plot of chunk unnamed-chunk-8"></p>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-7" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 03 -->
+
+<h2>Coordinates</h2>
+
+<div style='float:left;width:48%;' class='centered'>
+  <ul>
+<li><p>Coordenadas Lineales</p>
+
+<ul>
+<li><code>coord_cartesian()</code></li>
+<li><code>coord_flip()</code></li>
+<li><code>coord_fixed()</code></li>
+</ul></li>
+<li><p>Coordenadas no Lineales</p>
+
+<ul>
+<li><code>coord_map()</code></li>
+<li><code>coord_polar()</code> </li>
+<li><code>coord_trans()</code> </li>
+</ul></li>
+<li><p>Los ejemplos descritos, se encuentran en:</p>
+
+<p><span class="footnote"> Código: <a href="">M4_C2_script02.R</a> </span></p></li>
+</ul>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p><code>Ejemplo 6</code></p>
+
+<pre><code class="r">ggplot(mpg, aes(displ, hwy)) + 
+  geom_point(size = 3, alpha = 0.7) + 
+  geom_smooth()
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-9-1.png" alt="plot of chunk unnamed-chunk-9"></p>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-8" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 03 -->
+
+<h2>coord_cartesian()</h2>
+
+<div style='float:left;width:48%;' class='centered'>
+  <p><code>Ejemplo 7</code></p>
+
+<pre><code class="r">ggplot(mpg, aes(displ, hwy)) + 
+  geom_point(size = 3, alpha = 0.7) + 
+  geom_smooth() + 
+  scale_x_continuous(limits = c(4, 6))
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-10-1.png" alt="plot of chunk unnamed-chunk-10"></p>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p><code>Ejemplo 8</code></p>
+
+<pre><code class="r">ggplot(mpg, aes(displ, hwy)) + 
+  geom_point(size = 3, alpha = 0.7) + 
+  geom_smooth() + 
+  coord_cartesian(xlim = c(4, 6))
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-11-1.png" alt="plot of chunk unnamed-chunk-11"></p>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-9" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 03 -->
+
+<h2>coord_flip()</h2>
+
+<div style='float:left;width:48%;' class='centered'>
+  <p><code>Ejemplo 9</code></p>
+
+<pre><code class="r">ggplot(ToothGrowth, aes(x=dose, y=len, 
+group=factor(dose))) + 
+geom_boxplot(aes(fill=factor(dose))) 
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-12-1.png" alt="plot of chunk unnamed-chunk-12"></p>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p><code>Ejemplo 10</code></p>
+
+<pre><code class="r">ggplot(ToothGrowth, aes(x=dose, y=len, 
+group=factor(dose))) +  coord_flip() +
+geom_boxplot(aes(fill=factor(dose))) 
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-13-1.png" alt="plot of chunk unnamed-chunk-13"></p>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-10" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 03 -->
+
+<h2>coord_fixed()</h2>
+
+<div style='float:left;width:48%;' class='centered'>
+  <p><code>Ejemplo 11</code></p>
+
+<pre><code class="r">ggplot(mtcars, aes(mpg, wt)) + 
+geom_point() + 
+coord_fixed(ratio = 1)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-14-1.png" alt="plot of chunk unnamed-chunk-14"></p>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p><code>Ejemplo 12</code></p>
+
+<pre><code class="r">ggplot(mtcars, aes(mpg, wt)) + 
+  geom_point() +  
+  coord_fixed(ratio = 5)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-15-1.png" alt="plot of chunk unnamed-chunk-15"></p>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-11" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 03 -->
+
+<h2>Theme</h2>
+
+<div style='float:left;width:48%;' class='centered'>
+  <ul>
+<li><p>Los temas o <code>theme</code> son capas que permiten personalizar aun más el gráfico que se 
+quiere mostrar.</p></li>
+<li><p>El sistema de temas no afecta en cómo los datos son representados por <code>geom_*()</code>,
+ó cómo son transformados por escalas. Es decir, los temas no cambian las 
+propiedades perceptivas del gráfico, pero si ayudan a que el gráfico sea 
+esteticamente mejor.</p></li>
+<li><p>Los ejemplos descritos, se encuentran en:</p>
+
+<p><span class="footnote"> Código: <a href="">M4_C2_script03.R</a> </span></p></li>
+</ul>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p><code>Ejemplo 13</code></p>
+
+<pre><code class="r">ggplot(iris, aes(x=Sepal.Length, 
+        y=Petal.Length, colour=Species)) + 
+  geom_point(size=3) + ggtitle(&quot;Scatterplot&quot;) + 
+  xlab(&quot;Petal Length (cm)&quot;) + 
+  ylab(&quot;Sepal Length (cm)&quot;)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-16-1.png" alt="plot of chunk unnamed-chunk-16"></p>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-12" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 03 -->
+
+<h2>Theme</h2>
+
+<div style='float:left;width:48%;' class='centered'>
+  <ul>
+<li><p>El sistema de <code>tematización</code> se compone de cuatro componentes 
+principales:</p>
+
+<ul>
+<li>Titulos, leyendas, ejes, etc.</li>
+<li>Color, tamaño de fuente, etc.</li>
+<li>Anula elementos predeterminados y crea unos más personalizados.</li>
+<li>Temas completos.</li>
+</ul></li>
+<li><p>Los ejemplos descritos, se encuentran en:</p>
+
+<p><span class="footnote"> Código: <a href="">M4_C2_script03.R</a> </span></p></li>
+</ul>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p><code>Ejemplo 14</code></p>
+
+<pre><code class="r">ggplot(mpg, aes(cty, hwy, 
+          color = factor(cyl))) +
+          geom_jitter() + 
+          geom_abline(colour = &quot;grey50&quot;, 
+                          size = 2)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-17-1.png" alt="plot of chunk unnamed-chunk-17"></p>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-13" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 03 -->
+
+<h2>labs()</h2>
+
+<div style='float:left;width:48%;' class='centered'>
+  <p><img src="assets/fig/unnamed-chunk-18-1.png" alt="plot of chunk unnamed-chunk-18"></p>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p><code>Ejemplo 15</code></p>
+
+<pre><code class="r">ggplot(mpg, aes(cty, hwy, 
+                color = factor(cyl))) +
+  geom_jitter(size = 3) + 
+  geom_abline(colour = &quot;grey50&quot;, 
+              size = 2) + 
+  # Capa labs            
+  labs(
+    x = &quot;Eje X&quot;,
+    y = &quot;Eje Y&quot;,
+    colour = &quot;Cylinders&quot;,
+    title = &quot;Titulo&quot;) +
+  # Escala de Colores
+  scale_colour_brewer()
+</code></pre>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-14" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 03 -->
+
+<h2>scale_colour_brewer()</h2>
+
+<div style='float:left;width:48%;' class='centered'>
+  <p><img src="assets/fig/unnamed-chunk-20-1.png" alt="plot of chunk unnamed-chunk-20"></p>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p><code>Ejemplo 16</code></p>
+
+<pre><code class="r">ggplot(mpg, aes(cty, hwy, 
+                color = factor(cyl))) +
+  geom_jitter(size = 3) + 
+  geom_abline(colour = &quot;grey50&quot;, 
+              size = 2) + 
+  # Capa labs            
+  labs(
+    x = &quot;Eje X&quot;,
+    y = &quot;Eje Y&quot;,
+    colour = &quot;Cylinders&quot;,
+    title = &quot;Titulo&quot;) +
+  # Escala de Colores
+  scale_colour_brewer(palette = &quot;Set1&quot;)
+</code></pre>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-15" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 03 -->
+
+<h2>theme_minimal()</h2>
+
+<div style='float:left;width:48%;' class='centered'>
+  <p><img src="assets/fig/unnamed-chunk-22-1.png" alt="plot of chunk unnamed-chunk-22"></p>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p><code>Ejemplo 17</code></p>
+
+<pre><code class="r">ggplot(mpg, aes(cty, hwy, 
+                color = factor(cyl))) +
+  geom_jitter(size = 3) + 
+  geom_abline(colour = &quot;grey50&quot;, 
+              size = 2) + 
+  # Tema de fondo            
+  theme_minimal() +             
+  # Capa labs            
+  labs(
+    x = &quot;Eje X&quot;,
+    y = &quot;Eje Y&quot;,
+    colour = &quot;Cylinders&quot;,
+    title = &quot;Titulo&quot;) +
+  # Escala de Colores
+  scale_colour_brewer(palette = &quot;Set1&quot;)
+</code></pre>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-16" style="background:;">
+  
+  <article data-timings="">
+    <!-- Slide 03 -->
+
+<h2>theme()</h2>
+
+<div style='float:left;width:48%;' class='centered'>
+  <p><img src="assets/fig/unnamed-chunk-24-1.png" alt="plot of chunk unnamed-chunk-24"></p>
+
+</div>
+<div style='float:right;width:48%;'>
+  <p><code>Ejemplo 18</code></p>
+
+<p>El siguiente ejemplo, ilustra la visualización de datos con varias capas
+aplicadas.</p>
+
+<p><img class="center" width=1000px height=1000px src="assets/img/codigo_largo.png"></img></p>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='NA'>
+         1
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Módulo 4: Visualización de datos.'>
+         2
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='NA'>
+         3
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='NA'>
+         4
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='NA'>
+         5
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=6 title='NA'>
+         6
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=7 title='NA'>
+         7
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=8 title='NA'>
+         8
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=9 title='NA'>
+         9
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=10 title='NA'>
+         10
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=11 title='NA'>
+         11
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=12 title='NA'>
+         12
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=13 title='NA'>
+         13
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=14 title='NA'>
+         14
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=15 title='NA'>
+         15
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=16 title='NA'>
+         16
+      </a>
+    </li>
+    
+    </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  <script src="libraries/widgets/quiz/js/jquery.quiz.js"></script>
+<script src="libraries/widgets/quiz/js/mustache.min.js"></script>
+<script src="libraries/widgets/quiz/js/quiz-app.js"></script>
+<script src="libraries/widgets/bootstrap/js/bootstrap.min.js"></script>
+<script src="libraries/widgets/bootstrap/js/bootbox.min.js"></script>
+<script src="libraries/widgets/interactive/js/ace/js/ace.js"></script>
+<script src="libraries/widgets/interactive/js/interactive.js"></script>
+
+  <!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script> -->
+  
+<script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="libraries/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+
+  
+  <script>  
+  $(function (){ 
+    $("#example").popover(); 
+    $("[rel='tooltip']").tooltip(); 
+  });  
+  </script>  
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
